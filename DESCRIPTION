@@ -1,0 +1,20 @@
+Package: HaplinMethyl
+Version: 0.1
+Title: Additional functions for Haplin, for using matrices of environmental data
+  (e.g., DNA methylation data)
+Authors@R: c( person( "Julia", "Romanowska", role = c( "aut", "cre" ),
+                     email = "Julia.Romanowska@uib.no",
+                     comment = c(ORCID = "0000-0001-6733-1953" ) ),
+              person( "Haakon K.", "Gjessing", role = c( "aut", "ctb" ) ) )
+Maintainer: Julia Romanowska <Julia.Romanowska@uib.no>
+Depends: R (>= 3.1.0),
+  Haplin (>= 7.0.0)
+Imports: ff
+Suggests: testthat,
+  knitr,
+  ggplot2
+Description: Reading in and handling of large environmental data matrices that are used in
+  Haplin analyses, e.g., gene-environment interactions.
+License: GPL (>= 2)
+URL: http://folk.uib.no/gjessing/genetics/software/haplin/
+RoxygenNote: 6.1.1
