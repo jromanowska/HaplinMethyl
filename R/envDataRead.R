@@ -60,10 +60,10 @@ envDataRead <- function( file.in = stop( "'file.in' must be given!" ),
 	files.list <- Haplin:::f.make.out.filename( file.in, file.out, dir.out = dir.out,
 												root = "env", overwrite = overwrite )
 
-	first.col.names <- FALSE
+	rownames.first.col <- FALSE
 	env.rownames <- c()
 	if( is.logical( rownames ) ){
-		first.col.names <- rownames
+		rownames.first.col <- rownames
 	} else {
 		env.rownames <- rownames
 	}
@@ -116,7 +116,7 @@ envDataRead <- function( file.in = stop( "'file.in' must be given!" ),
 		if( header ){
 			env.colnames <- as.character( cur.chunk[ 1, ] )
 			cur.chunk <- cur.chunk[ -1, ]
-			if( first.col.names ){
+			if( rownames.first.col ){
 				env.colnames <- env.colnames[ -1 ]
 			}
 		}
@@ -124,7 +124,7 @@ envDataRead <- function( file.in = stop( "'file.in' must be given!" ),
 
 	## reading in chunks and creating ff object for each chunk
 	while( length( cur.chunk ) != 0 ){
-		if( first.col.names ){
+		if( rownames.first.col ){
 			env.rownames <- c( env.rownames, as.character( cur.chunk[ ,1 ] ) )
 			cur.chunk <- cur.chunk[ ,-1 ]
 		}
@@ -142,7 +142,6 @@ envDataRead <- function( file.in = stop( "'file.in' must be given!" ),
 		nb.rows.tot <- nb.rows.tot + nrow( tmp.ff )
 
 		rm( cur.chunk, tmp.ff )
-		gc()
 
 		i <- i + 1
 		message( " -- chunk ", i, "-- \n" )
@@ -165,14 +164,14 @@ envDataRead <- function( file.in = stop( "'file.in' must be given!" ),
 	for( i in 1:nb.col.chunks ){
 		cur.cols <- ( ( i-1 )*nb.cols.per.chunk + 1 ):( min( i*nb.cols.per.chunk, nb.cols.env.data ) )
 		if( !cont ){
-			tmp.env.data <- ff( vmode = Haplin:::.haplinEnv$.vmode.gen.data,
+			tmp.env.data <- ff::ff( vmode = Haplin:::.haplinEnv$.vmode.gen.data,
 				levels = env.levels,
 				dim = c( nb.rows.tot,
 						 min( nb.cols.per.chunk, max( cur.cols ) - min( cur.cols ) + 1 )
 						 )
 				)
 		} else {
-			tmp.env.data <- ff( vmode = "single",
+			tmp.env.data <- ff::ff( vmode = "single",
 				dim = c( nb.rows.tot,
 					min( nb.cols.per.chunk, max( cur.cols ) - min( cur.cols ) + 1 )
 					)

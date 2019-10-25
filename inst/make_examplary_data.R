@@ -11,22 +11,26 @@ rownames( data.tmp ) <- row.names
 
 source( "../tests/common_vars.R" )
 # write the data with both column and row names
-write.table( data.tmp,
+# NB! can't just use "rownames" and "colnames" because when reading in, the first column
+#    first row is non-existent!
+write.table( rbind( c( 0, col.names ),
+				cbind( row.names, data.tmp )
+			 ),
 			 file = my.env.data.all.names.in,
 			 quote = FALSE,
-			 row.names = TRUE,
-			 col.names = TRUE )
+			 row.names = FALSE,
+			 col.names = FALSE )
 
 # write the data with only the column names
-write.table( data.tmp,
+write.table( rbind( col.names, data.tmp ),
 			 file = my.env.data.col.names.in,
 			 quote = FALSE,
 			 row.names = FALSE,
-			 col.names = TRUE )
+			 col.names = FALSE )
 
 # write the data with only the row names
-write.table( data.tmp,
+write.table( cbind( row.names, data.tmp ),
 			 file = my.env.data.row.names.in,
 			 quote = FALSE,
-			 row.names = TRUE,
+			 row.names = FALSE,
 			 col.names = FALSE )

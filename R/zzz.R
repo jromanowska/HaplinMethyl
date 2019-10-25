@@ -12,4 +12,8 @@
 	assign( ".class.data.env.cont", c( "env.cont", "env.data" ), envir = .haplinMethEnv )
 	#   - categorical data:
 	assign( ".class.data.env.cat", c( "env.cat", "env.data" ), envir = .haplinMethEnv )
+
+	# set the ff finalizer to delete the files after an ff object is removed
+	options( fffinalizer = "delete" )
+	options( fffinonexit = TRUE )
 }

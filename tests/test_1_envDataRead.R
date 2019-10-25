@@ -14,7 +14,7 @@ test_that( "Reading the data correctly", {
 	info.test <- summary( test.read.in )
 	ncols.in <- info.test$ncol
 
-	expect_s3_class( test.read.in, class = "ff" )
+	expect_s3_class( test.read.in, class = "env.data" )
 	expect_equal( colnames( test.read.in[[ 1 ]] ),
 				  paste0( "cg", seq_len( ncols.in ) ) )
 } )
