@@ -97,6 +97,7 @@ envDataRead <- function( file.in = stop( "'file.in' must be given!" ),
 		assign( "last.warning", NULL, envir = baseenv() )
 
 		nb.cols <- nb.cols + 1
+		# 10 times smaller than above:
 		nb.lines.per.chunk <- ceiling( 100000000 / nb.cols )
 
 		cur.chunk <- matrix(
