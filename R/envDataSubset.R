@@ -130,89 +130,98 @@ envDataSubset <- function( env.data = stop( "You need to specify the data!", cal
 	}
 
 	# ---- subsetting ----
+	is.subset.cols <- TRUE
 	if( is.logical( final.col.sel ) ){
 		# no col subsetting
+		is.subset.cols <- FALSE
 		final.col.sel <- 1:info.env.data$ncol
 	} else {
 		message( paste( "Will select", length( final.col.sel ), "columns." ) )
 	}
+
+	is.subset.rows <- TRUE
 	if( is.logical( final.row.sel ) ){
 		# no row subsetting
+		is.subset.rows <- FALSE
 		final.row.sel <- 1:info.env.data$nrow
 	} else {
 		message( paste( "Will select", length( final.row.sel ), "rows." ) )
 	}
 
-	# # TODO: change here, the following is just copied from Haplin::genDataGetPart
-	# ncols.per.chunk <- ncol( env.data[[ 1 ]] )
-	# if( length( final.col.sel ) > ncols.per.chunk ){
-	# 	warning( "You're requesting big amount of data!" )
-	# }
-	# col.info <- Haplin:::f.get.which.gen.el( final.col.sel, ncols.per.chunk )
-	# which.gen.chunk <- col.info$chunk.no
-	# which.cols.chunk <- col.info$col.no
-	#
-	# new.dim <- c( length( final.row.sel ), length( final.col.sel ) )
-	# new.colnames <- c()
-	# new.rownames <- c()
-	# gen.data.out <- ff::ff( NA, levels = all.levels, dim = new.dim, vmode = ff::vmode( gen.data[[ 1 ]] ) )
-	# for( i in 1:length( cols ) ){
-	# 	gen.data.out[ ,i ] <- gen.data[[ which.gen.chunk[ i ] ]][ ,which.cols.chunk[ i ] ]
-	# 	new.colnames <- c( new.colnames,
-	# 		colnames( gen.data[[ which.gen.chunk[ i ] ]] )[ which.cols.chunk[ i ] ] )
-	# }
-	# colnames( gen.data.out ) <- new.colnames
-	#
-	#
-	# if( is.subset.cols ){
-	# 	# check how many chunks will be needed
-	# 	nb.cols.per.chunk <- get( ".nb.cols.per.chunk", envir = .haplinEnv )
-	# 	nb.chunks <- ceiling( length( subset.cols ) / nb.cols.per.chunk )
-	#
-	# 	gen.data.col.wise <- sapply( 1:nb.chunks, function( x ){
-	# 		first.col <- ( nb.cols.per.chunk*( x - 1 ) + 1 )
-	# 		last.col <- min( ( nb.cols.per.chunk*x ), length( subset.cols ) )
-	# 		cur.cols <- subset.cols[ first.col:last.col ]
-	# 		list( f.get.gen.data.cols( data.in$gen.data, cur.cols ) )
-	# 	} )
-	# } else {
-	# 	gen.data.col.wise <- data.in$gen.data
-	# }
-	#
-	# cov.data.in <- NULL
-	# if( is.subset.rows ){
-	# 	# need to choose from both gen.data and cov.data
-	# 	gen.data.col.wise <- lapply( gen.data.col.wise, function( x ){
-	# 		sub <- x[ subset.rows, ]
-	# 		out <- ff::ff( sub, levels = ff::levels.ff( sub ), dim = dim( sub ), vmode = ff::vmode( x ) )
-	# 		colnames( out ) <- colnames( sub )
-	# 		return( out )
-	# 	})
-	#
-	# 	if( !is.null( data.in$cov.data ) ){
-	# 		cov.data.in <- data.in$cov.data[ subset.rows, ]
-	# 	}
-	# } else if( !is.null( data.in$cov.data ) ){
-	# 	cov.data.in <- data.in$cov.data
-	# }
-	# data.out <- list( cov.data = cov.data.in, gen.data = gen.data.col.wise, aux = data.in$aux )
-	# class( data.out ) <- class( data.in )
-	#
-	# ## saving the chosen part of the data
-	# cat( "Saving data... \n" )
-	# cur.names <- c()
-	# for( i in 1:length( gen.data.col.wise ) ){
-	# 	cur.name <- paste( get( ".gen.cols.name", envir = .haplinEnv ), i, sep = "." )
-	# 	assign( cur.name, gen.data.col.wise[[i]] )
-	# 	cur.names <- c( cur.names, cur.name )
-	# }
-	# aux <- data.in$aux
-	# save.list <- c( cur.names, "aux" )
-	# if( !is.null( cov.data.in ) ){
-	# 	save.list <- c( save.list, "cov.data.in" )
-	# }
-	# ff::ffsave( list = save.list, file = file.path( dir.out, files.list$file.out.base ) )
-	# cat( "... saved to files: ", files.list$file.out.ff, ", ", files.list$file.out.aux, "\n", sep = "" )
-	#
-	# return( data.out )
+	# get the numbers of columns and chunks (env.data is a list structure!)
+	ncols.per.chunk <- ncol( env.data[[ 1 ]] )
+	col.info <- Haplin:::f.get.which.gen.el( final.col.sel, ncols.per.chunk )
+	which.gen.chunk <- col.info$chunk.no
+	which.cols.chunk <- col.info$col.no
+
+	new.dim <- c( length( final.row.sel ), length( final.col.sel ) )
+	new.colnames <- c()
+	new.rownames <- c()
+
+	# create new ff object, with the new dimensions
+	cont.data <- "env.cont" %in% info.env.data$class
+	if( !cont.data ){
+		data.out <- ff::ff( NA,
+							levels = levels( env.data[[ 1 ]] ),
+							dim = new.dim,
+							vmode = ff::vmode( env.data[[ 1 ]] ) )
+	} else {
+		data.out <- ff::ff( NA,
+							dim = new.dim,
+							vmode = ff::vmode( env.data[[ 1 ]] ) )
+	}
+
+	if( is.subset.cols ){
+		# check how many chunks will be needed
+		nb.cols.per.chunk <- get( ".nb.cols.per.chunk", envir = .haplinEnv )
+		nb.chunks <- ceiling( length( subset.cols ) / nb.cols.per.chunk )
+
+		# extract data, chunk by chunk
+		env.data.col.wise <- sapply( 1:nb.chunks, function( x ){
+			first.col <- ( nb.cols.per.chunk*( x - 1 ) + 1 )
+			last.col <- min( ( nb.cols.per.chunk*x ), length( final.col.sel ) )
+			cur.cols <- final.col.sel[ first.col:last.col ]
+			return( list( f.get.gen.data.cols( env.data, cur.cols ) ) )
+		} )
+	} else {
+		# no column subsetting
+		env.data.col.wise <- env.data
+	}
+
+	# if subsetting rows
+	if( is.subset.rows ){
+		data.out <- lapply( env.data.col.wise, function( x ){
+			sub <- x[ final.row.sel, ]
+			if( !cont.data ){
+				out <- ff::ff( sub, levels = ff::levels.ff( sub ),
+							   dim = dim( sub ),
+							   vmode = ff::vmode( x ) )
+			} else {
+				out <- ff::ff( sub,
+							   dim = dim( sub ),
+							   vmode = ff::vmode( x ) )
+			}
+			colnames( out ) <- colnames( sub )
+			return( out )
+		})
+	} else {
+		data.out <- env.data.col.wise
+	}
+
+	class( data.out ) <- class( data.in )
+
+	## saving the chosen part of the data
+	cat( "Saving data... \n" )
+	cur.names <- c()
+	for( i in 1:length( env.data.col.wise ) ){
+		cur.name <- paste( get( ".env.cols.name", envir = .haplinEnv ), i, sep = "." )
+		assign( cur.name, env.data.col.wise[[i]] )
+		cur.names <- c( cur.names, cur.name )
+	}
+	save.list <- c( cur.names, "cont.data" )
+	ff::ffsave( list = save.list, file = file.path( dir.out, files.list$file.out.base ) )
+	cat( "... saved to files: ", files.list$file.out.ff, ", ",
+		 files.list$file.out.aux, "\n", sep = "" )
+
+	return( data.out )
 }

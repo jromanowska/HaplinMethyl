@@ -7,6 +7,9 @@
 
 	assign( ".haplinMethEnv", new.env(), envir = parent.env( environment() ) )
 
+	# the name for the columns in the ff data
+	assign( ".env.cols.name", "env.cols", envir = .haplinMethEnv )
+
 	# setting the class of the read in data
 	#   - continuous data:
 	assign( ".class.data.env.cont", c( "env.cont", "env.data" ), envir = .haplinMethEnv )
