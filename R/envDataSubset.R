@@ -7,6 +7,11 @@
 #' @param row.names Character vector with row names to extract (optional).
 #' @param col.ids Numeric vector with column IDs (optional).
 #' @param row.ids Numeric vector with row IDs (optional).
+#' @param file.out The base for the output filename (default: "my_data_part").
+#' @param dir.out The path to the directory where the output files will be saved.
+#' @param overwrite Whether to overwrite the output files: if NULL (default), will prompt
+#'   the user to give answer; set to TRUE, will automatically overwrite any existing files;
+#'   and set to FALSE, will stop if the output files exist.
 #'
 #' @section Warning:
 #'   The parameter \code{col.names} cannot be used jointly with \code{col.ids}, similarly
@@ -19,9 +24,15 @@ envDataSubset <- function( env.data = stop( "You need to specify the data!", cal
 						   col.names,
 						   row.names,
 						   col.ids,
-						   row.ids
+						   row.ids,
+						   file.out = "my_data_part",
+						   dir.out = ".",
+						   overwrite = NULL
 ){
 	# checking input args
+	files.list <- Haplin:::f.make.out.filename( file.out = file.out,
+		dir.out = dir.out, overwrite = overwrite )
+
 	if( nargs() == 1 ){
 		stop( "Have you forgotten to specify what do you want?", call. = FALSE )
 	}
@@ -44,7 +55,7 @@ envDataSubset <- function( env.data = stop( "You need to specify the data!", cal
 				  call. = FALSE )
 		}
 
-		all.col.names <- info.env.data$col.names
+		all.col.names <- info.env.data$colnames
 		if( is.null( all.col.names ) ){
 			stop( "The input data does not contain column names. Use the 'col.ids'
 				  parameter instead and try again.", call. = FALSE )
@@ -64,8 +75,8 @@ envDataSubset <- function( env.data = stop( "You need to specify the data!", cal
 					 Proceeding with the remaining selection: \n", col.names,
 					collapse = "," ) )
 
-			final.col.sel <- match( col.names, all.col.names )
 		}
+		final.col.sel <- match( col.names, all.col.names )
 	}
 
 	# ---- row.names ----
@@ -79,9 +90,9 @@ envDataSubset <- function( env.data = stop( "You need to specify the data!", cal
 				  call. = FALSE )
 		}
 
-		all.row.names <- info.env.data$row.names
+		all.row.names <- info.env.data$rownames
 		if( is.null( all.row.names ) ){
-			stop( "The input data does not contain column names. Use the 'row.ids'
+			stop( "The input data does not contain row names. Use the 'row.ids'
 				  parameter instead and try again.", call. = FALSE )
 		}
 		if( !all( row.names %in% all.row.names ) ){
@@ -99,13 +110,13 @@ envDataSubset <- function( env.data = stop( "You need to specify the data!", cal
 					 Proceeding with the remaining selection: \n", row.names,
 					collapse = "," ) )
 
-			final.row.sel <- match( row.names, all.row.names )
 		}
+		final.row.sel <- match( row.names, all.row.names )
 	}
 
 	# ---- col.ids ----
 	if( !missing( col.ids ) ){
-		if( !is.integer( col.ids ) ){
+		if( !is.numeric( col.ids ) ){
 			stop( "Parameter 'col.ids' should be an integer vector!", call. =  FALSE )
 		}
 		if( any( col.ids < 1 ) |
@@ -118,7 +129,7 @@ envDataSubset <- function( env.data = stop( "You need to specify the data!", cal
 
 	# ---- row.ids ----
 	if( !missing( row.ids ) ){
-		if( !is.integer( row.ids ) ){
+		if( !is.numeric( row.ids ) ){
 			stop( "Parameter 'row.ids' should be an integer vector!", call. =  FALSE )
 		}
 		if( any( row.ids < 1 ) |
@@ -173,15 +184,17 @@ envDataSubset <- function( env.data = stop( "You need to specify the data!", cal
 
 	if( is.subset.cols ){
 		# check how many chunks will be needed
-		nb.cols.per.chunk <- get( ".nb.cols.per.chunk", envir = .haplinEnv )
-		nb.chunks <- ceiling( length( subset.cols ) / nb.cols.per.chunk )
+		nb.cols.per.chunk <- get( ".nb.cols.per.chunk", envir = Haplin:::.haplinEnv )
+		nb.chunks <- ceiling( length( final.col.sel ) / nb.cols.per.chunk )
 
 		# extract data, chunk by chunk
 		env.data.col.wise <- sapply( 1:nb.chunks, function( x ){
 			first.col <- ( nb.cols.per.chunk*( x - 1 ) + 1 )
 			last.col <- min( ( nb.cols.per.chunk*x ), length( final.col.sel ) )
 			cur.cols <- final.col.sel[ first.col:last.col ]
-			return( list( f.get.gen.data.cols( env.data, cur.cols ) ) )
+			out <- Haplin:::f.get.gen.data.cols( env.data, cur.cols )
+			rownames( out ) <- rownames( env.data[[ 1 ]] )
+			return( list( out ) )
 		} )
 	} else {
 		# no column subsetting
@@ -202,19 +215,20 @@ envDataSubset <- function( env.data = stop( "You need to specify the data!", cal
 							   vmode = ff::vmode( x ) )
 			}
 			colnames( out ) <- colnames( sub )
+			rownames( out ) <- rownames( x )[ final.row.sel ]
 			return( out )
 		})
 	} else {
 		data.out <- env.data.col.wise
 	}
 
-	class( data.out ) <- class( data.in )
+	class( data.out ) <- class( env.data )
 
-	## saving the chosen part of the data
+	# ---- saving the chosen part of the data----
 	cat( "Saving data... \n" )
 	cur.names <- c()
 	for( i in 1:length( env.data.col.wise ) ){
-		cur.name <- paste( get( ".env.cols.name", envir = .haplinEnv ), i, sep = "." )
+		cur.name <- paste( get( ".env.cols.name", envir = .haplinMethEnv ), i, sep = "." )
 		assign( cur.name, env.data.col.wise[[i]] )
 		cur.names <- c( cur.names, cur.name )
 	}

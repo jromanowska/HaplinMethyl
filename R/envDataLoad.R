@@ -47,5 +47,10 @@ envDataLoad <- function( filename = stop( "'filename' must be given!" ),
 		rm( cur.chunk )
 	}
 
+	if( cont ){
+		class( env.data.col.wise ) <- get( ".class.data.env.cont", envir = .haplinMethEnv )
+	} else {
+		class( env.data.col.wise ) <- get( ".class.data.env.cat", envir = .haplinMethEnv )
+	}
 	return( env.data.col.wise )
 }
