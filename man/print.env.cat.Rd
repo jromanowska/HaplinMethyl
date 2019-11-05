@@ -8,6 +8,8 @@
 }
 \arguments{
 \item{x}{The \code{env.cat} object read in by \link{envDataRead}.}
+
+\item{...}{ignored}
 }
 \value{
 \code{NULL}

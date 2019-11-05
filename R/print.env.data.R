@@ -16,6 +16,7 @@ print.env.data <- function( x, cont = TRUE ){
 #' Prints a short summary about the categorical environmental data.
 #'
 #' @param x The \code{env.cat} object read in by \link{envDataRead}.
+#' @param ... ignored
 #'
 #' @return \code{NULL}
 #'
@@ -29,6 +30,7 @@ print.env.cat <- function( x, ... ){
 #' Prints a short summary about the continuous environmental data.
 #'
 #' @param x The \code{env.cont} object read in by \link{envDataRead}.
+#' @param ... ignored
 #'
 #' @return \code{NULL}
 #'

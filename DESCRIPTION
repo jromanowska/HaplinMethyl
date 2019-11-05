@@ -7,7 +7,7 @@ Authors@R: c( person( "Julia", "Romanowska", role = c( "aut", "cre" ),
                      comment = c(ORCID = "0000-0001-6733-1953" ) ),
               person( "Haakon K.", "Gjessing", role = c( "aut", "ctb" ) ) )
 Maintainer: Julia Romanowska <Julia.Romanowska@uib.no>
-Depends: R (>= 3.1.0),
+Depends: R (>= 3.5.0),
   Haplin (>= 7.0.0)
 Imports: ff
 Suggests: testthat,

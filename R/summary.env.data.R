@@ -18,6 +18,7 @@ summary.env.data <- function( object, cont = TRUE ){
 #' Returns a short summary about the continuous environmental data.
 #'
 #' @param object The \code{env.cont} object read in by \link{envDataRead}.
+#' @param ... ignored
 #'
 #' @return list with:
 #'   \itemize{
@@ -37,7 +38,8 @@ summary.env.cont <- function( object, ... ){
 #'
 #' Prints a short summary about the categorical environmental data.
 #'
-#' @param x The \code{env.cat} object read in by \link{envDataRead}.
+#' @param object The \code{env.cat} object read in by \link{envDataRead}.
+#' @param ... ignored
 #'
 #' @return list with:
 #'   \itemize{

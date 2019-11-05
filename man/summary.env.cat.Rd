@@ -7,7 +7,9 @@
 \method{summary}{env.cat}(object, ...)
 }
 \arguments{
-\item{x}{The \code{env.cat} object read in by \link{envDataRead}.}
+\item{object}{The \code{env.cat} object read in by \link{envDataRead}.}
+
+\item{...}{ignored}
 }
 \value{
 list with:
