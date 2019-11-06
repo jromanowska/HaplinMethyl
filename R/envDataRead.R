@@ -133,7 +133,7 @@ envDataRead <- function( file.in = stop( "'file.in' must be given!" ),
 			cur.levels <- unique( as.vector( cur.chunk ) )
 			env.levels <- as.character( union( env.levels, cur.levels ) )
 
-			tmp.ff <- ff::as.ff( cur.chunk, vmode = .haplinEnv$.vmode.gen.data,
+			tmp.ff <- ff::as.ff( cur.chunk, vmode = Haplin:::.haplinEnv$.vmode.gen.data,
 								 levels = env.levels )
 		} else { # data consists of continuous variables
 			tmp.ff <- ff::as.ff( cur.chunk, vmode = "single" )

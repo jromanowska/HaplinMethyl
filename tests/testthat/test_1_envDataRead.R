@@ -3,8 +3,9 @@ context( "Testing envDataRead function." )
 source( "common_vars.R" )
 
 test_that( "Reading the data correctly", {
+	examples.dir <- system.file( "extdata", package = "HaplinMethyl" )
 	test.read.in <- envDataRead( my.env.data.all.names.in,
-		dir.in = file.path( "..", "..", "inst", "extdata" ),
+		dir.in = examples.dir,
 		file.out = my.env.data.all.names.out,
 		sep = " ",
 		cont = TRUE,

@@ -9,7 +9,7 @@
 #'   and create an object of \code{env.data} class, which is basically a list with
 #'   ff-matrices. Simultaneously, two files are written: \code{.RData} and \code{.ffData}.
 #'   These are connected and will be used in the data-loading function. The object
-#'   created here has also \link[summary.env.data]{summary} and \link[print.env.data]{print}
+#'   created here has also \link{summary} and \link{print}
 #'   methods defined for easier viewing.
 #'
 #' @section Loading the read-in data:
@@ -25,4 +25,6 @@
 #'
 #' @docType package
 #' @name HaplinMethyl
+#'
+#' @import Haplin
 NULL

@@ -66,7 +66,7 @@ envDataReadFromObj <- function(
 		cur.cols <- ( ( i-1 )*nb.cols.per.chunk + 1 ):( min( i*nb.cols.per.chunk, nb.cols.env.data ) )
 		if( !cont ){
 			tmp.env.data <- ff::ff( obj.in[ ,cur.cols ],
-				vmode = .haplinEnv$.vmode.gen.data,
+				vmode = Haplin:::.haplinEnv$.vmode.gen.data,
 				levels = env.levels,
 				dim = c(
 					nb.rows.tot,
