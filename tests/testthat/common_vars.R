@@ -6,3 +6,6 @@ my.env.data.row.names.out <- "env_data_test_rownames"
 
 my.env.data.col.names.in <- "env_data_test_colnames.dat"
 my.env.data.col.names.out <- "env_data_test_colnames"
+
+only.row.names <- "row_names.dat"
+only.col.names <- "col_names.dat"

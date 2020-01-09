@@ -9,7 +9,7 @@ data.tmp <- matrix( runif( ncol.out * nrow.out ), ncol = ncol.out )
 colnames( data.tmp ) <- col.names
 rownames( data.tmp ) <- row.names
 
-source( "../tests/common_vars.R" )
+source( "../tests/testthat/common_vars.R" )
 # write the data with both column and row names
 # NB! can't just use "rownames" and "colnames" because when reading in, the first column
 #    first row is non-existent!
@@ -34,3 +34,9 @@ write.table( cbind( row.names, data.tmp ),
 			 quote = FALSE,
 			 row.names = FALSE,
 			 col.names = FALSE )
+
+# write only the row names
+write( row.names, file = only.row.names, ncolumns = length( row.names ) )
+
+# write only the column names
+write( col.names, file = only.col.names, ncolumns = length( col.names ) )

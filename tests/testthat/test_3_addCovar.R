@@ -60,3 +60,24 @@ test_that( "Wrong length of covar vector", {
 	expect_error( addCovar( my.gen.data.haplin, covar = covar.vect, c.name = c.name ) )
 } )
 
+test_that( "input data in wrong format",{
+	covar.tmp <- sample( x = 1:3, size = nrow( my.gen.data.haplin$gen.data[[ 1 ]]),
+						  replace = TRUE )
+	c.name <- "add.c"
+	input.data <- my.gen.data.haplin$gen.data[[ 1 ]]
+	expect_error( addCovar( input.data, covar = covar.tmp, c.name = c.name ) )
+} )
+
+test_that( "Covar is not a vector",{
+	covar.tmp <- "blabla"
+	c.name <- "add.c"
+	expect_error( addCovar( my.gen.data.haplin, covar = covar.tmp, c.name = c.name ) )
+} )
+
+test_that( "C.name has length more than 1",{
+	covar.tmp <- sample( x = 1:3, size = nrow( my.gen.data.haplin$gen.data[[ 1 ]]),
+						  replace = TRUE )
+	c.name <- c( "add.c", "add.c2", "add.c3" )
+	expect_error( addCovar( my.gen.data.haplin, covar = covar.tmp, c.name = c.name ) )
+} )
+
