@@ -21,7 +21,7 @@ envDataLoad <- function( filename = stop( "'filename' must be given!" ),
 		stop( "The file(s) doesn't seem to exist!", call. = FALSE )
 	}
 
-	env.cols.name <- get( ".env.cols.name", envir = Haplin:::.haplinEnv )
+	env.cols.name <- get( ".env.cols.name", envir = .haplinMethEnv )
 	file.in.base <- paste( dir.in, "/", filename, "_env", sep = "" )
 	suppressWarnings( ff::ffload( file.in.base, rootpath = getOption( "fftempdir" ) ) )
 	loaded.objects <- ls( pattern = paste0( env.cols.name, ".[[:digit:]]" ) )

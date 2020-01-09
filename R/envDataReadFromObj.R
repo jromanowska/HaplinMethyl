@@ -93,7 +93,7 @@ envDataReadFromObj <- function(
 	message( "Saving data... \n" )
 	save.list <- c()
 	for( i in seq_along( env.data.col.wise ) ){
-		cur.name <- paste( get( ".env.cols.name", envir = Haplin:::.haplinEnv ), i,
+		cur.name <- paste( get( ".env.cols.name", envir = .haplinMethEnv ), i,
 			sep = "." )
 		assign( cur.name, env.data.col.wise[[i]] )
 		save.list <- c( save.list, cur.name )
