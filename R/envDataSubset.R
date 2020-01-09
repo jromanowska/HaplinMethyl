@@ -36,7 +36,7 @@ envDataSubset <- function( env.data = stop( "You need to specify the data!", cal
 	if( nargs() == 1 ){
 		stop( "Have you forgotten to specify what do you want?", call. = FALSE )
 	}
-	if( !( "env.data" %in% class( env.data ) ) ){
+	if( !inherits( env.data, "env.data" ) ){
 		stop( "Wrong class of the input data set!", call. = FALSE )
 	}
 

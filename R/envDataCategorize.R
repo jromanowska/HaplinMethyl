@@ -41,7 +41,7 @@ envDataCategorize <- function(
 	files.list <- Haplin:::f.make.out.filename( file.out = file.out,
 		dir.out = dir.out, overwrite = overwrite )
 
-	if( class( env.data ) != get( ".class.data.env.cont", envir = Haplin:::.haplinEnv ) ){
+	if( !inherits( env.data, get( ".class.data.env.cont", envir = .haplinMethEnv ) ) ){
 		stop( "Wrong class of the given 'env.data'!", call. = FALSE )
 	}
 

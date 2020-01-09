@@ -3,7 +3,30 @@ context( "Testing envDataSubset function." )
 source( "common_vars.R" )
 
 test.read.in <- envDataLoad( my.env.data.all.names.out )
+examples.dir <- system.file( "extdata", package = "HaplinMethyl" )
+test.read.row.names.in 	<- envDataRead( my.env.data.row.names.in,
+		dir.in = examples.dir,
+		file.out = my.env.data.row.names.out,
+		sep = " ",
+		cont = TRUE,
+		header = FALSE,
+		rownames = TRUE,
+		overwrite = TRUE )
+
 subset.seq <- c( 3, 5, 10, 121 )
+
+test_that( "No arguments provided", {
+	expect_error( envDataSubset( test.read.in, overwrite = TRUE ) )
+} )
+
+test_that( "Wrong input format", {
+	expect_error( envDataSubset( subset.seq ) )
+})
+
+test_that( "Duplicate arguments: columns", {
+	expect_error( envDataSubset( test.read.in, overwrite = TRUE,
+								 col.ids = subset.seq, col.names = subset.seq ) )
+})
 
 test_that( "Subsetting only columns, by number", {
 	cols.out <- subset.seq
@@ -36,6 +59,17 @@ test_that( "Subsetting only columns, by names", {
 				  paste0( "cg", subset.seq ) )
 	expect_equal( rownames( subset.out[[ 1 ]] ),
 				  rownames( test.read.in[[ 1 ]] ) )
+} )
+
+test_that( "Subsetting only columns, by names, wrong format", {
+	cols.out <- subset.seq
+	expect_error( envDataSubset( test.read.in, col.names = cols.out, overwrite = TRUE ) )
+} )
+
+test_that( "Subsetting only columns, by names, no col.names in input", {
+	cols.out <- paste0( "cg", subset.seq )
+	expect_error(
+		envDataSubset( test.read.row.names.in, col.names = cols.out, overwrite = TRUE ) )
 } )
 
 test_that( "Subsetting only rows, by number", {
