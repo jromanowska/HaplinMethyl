@@ -47,10 +47,15 @@ envDataLoad <- function( filename = stop( "'filename' must be given!" ),
 		rm( cur.chunk )
 	}
 
-	if( cont ){
-		class( env.data.col.wise ) <- get( ".class.data.env.cont", envir = .haplinMethEnv )
+	# "cont" is loaded during 'ffload' above
+	if( exists( "cont" ) ){
+		if( cont ){
+			class( env.data.col.wise ) <- get( ".class.data.env.cont", envir = .haplinMethEnv )
+		} else {
+			class( env.data.col.wise ) <- get( ".class.data.env.cat", envir = .haplinMethEnv )
+		}
 	} else {
-		class( env.data.col.wise ) <- get( ".class.data.env.cat", envir = .haplinMethEnv )
+		stop( "Problem with the loaded data: 'cont' variable not found!", call. = FALSE )
 	}
 	return( env.data.col.wise )
 }

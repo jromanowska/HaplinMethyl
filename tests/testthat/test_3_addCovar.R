@@ -22,7 +22,7 @@ test_that( "Adding covar to haplin-formatted data without covariates", {
 	c.name <- "add.c"
 	new.data <- addCovar( my.gen.data.haplin, covar = covar.vect, c.name = c.name )
 	expect_s3_class( new.data, class( my.gen.data.haplin ) )
-	expect_true( is( new.data$cov.data, "matrix" ) )
+	expect_true( is.matrix( new.data$cov.data ) )
 	expect_equal( ncol( new.data$cov.data ), 1 )
 	expect_identical( colnames( new.data$cov.data ), c.name )
 } )
@@ -33,7 +33,7 @@ test_that( "Adding covar to haplin-formatted data with covariates", {
 	c.name <- "add.c"
 	new.data <- addCovar( my.gen.data.haplin2, covar = covar.vect, c.name = c.name )
 	expect_s3_class( new.data, class( my.gen.data.haplin2 ) )
-	expect_true( is( new.data$cov.data, "matrix" ) )
+	expect_true( is.matrix( new.data$cov.data ) )
 	expect_equal( ncol( new.data$cov.data ),
 					  ncol( my.gen.data.haplin2$cov.data ) + 1 )
 	expect_identical( colnames( new.data$cov.data ),
@@ -46,7 +46,7 @@ test_that( "Adding covar to ped-formatted data", {
 	c.name <- "add.c"
 	new.data <- addCovar( my.gen.data, covar = covar.vect, c.name = c.name )
 	expect_s3_class( new.data, class( my.gen.data ) )
-	expect_true( is( new.data$cov.data, "matrix" ) )
+	expect_true( is.matrix( new.data$cov.data ) )
 	expect_equal( ncol( new.data$cov.data ),
 					  ncol( my.gen.data$cov.data ) + 1 )
 	expect_identical( colnames( new.data$cov.data ),

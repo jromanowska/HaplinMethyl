@@ -22,7 +22,7 @@ addCovar <- function(
 	, c.name = stop( "c.name must be given!", call. = FALSE )
 ){
 	# check the input params
-	if( !( is( data.in, "haplin.data" ) || is( data.in, "haplin.ready" ) ) ){
+	if( !( inherits( data.in, "haplin.data" ) || inherits( data.in, "haplin.ready" ) ) ){
 		stop( "The input data is not in the correct format!", call. = FALSE )
 	}
 
