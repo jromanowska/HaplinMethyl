@@ -6,15 +6,15 @@ dir.exmpl <- system.file( "extdata", package = "Haplin" )
 exemplary.file1 <- paste0( dir.exmpl, "/HAPLIN.trialdata.txt" )
 
 my.gen.data.haplin <- Haplin::genDataRead( file.in = exemplary.file1, file.out = "trial_data1",
-	dir.out = ".", format = "haplin", n.vars = 0, overwrite = TRUE )
+	dir.out = tempdir(), format = "haplin", n.vars = 0, overwrite = TRUE )
 
 exemplary.file2 <- paste0( dir.exmpl, "/HAPLIN.trialdata2.txt" )
 my.gen.data.haplin2 <- Haplin::genDataRead( file.in = exemplary.file2, file.out = "trial_data2",
-	dir.out = ".", format = "haplin", n.vars = 2, allele.sep = "", overwrite = TRUE )
+	dir.out = tempdir(), format = "haplin", n.vars = 2, allele.sep = "", overwrite = TRUE )
 
 exemplary.file3 <- paste0( dir.exmpl, "/exmpl_data.ped" )
-my.gen.data <- Haplin::genDataRead( exemplary.file3, file.out = "ped_data", dir.out = ".",
-	format = "ped", overwrite = TRUE )
+my.gen.data <- Haplin::genDataRead( exemplary.file3, file.out = "ped_data",
+	dir.out = tempdir(), format = "ped", overwrite = TRUE )
 
 test_that( "Adding covar to haplin-formatted data without covariates", {
 	covar.vect <- sample( x = 1:3, size = nrow( my.gen.data.haplin$gen.data[[ 1 ]]),
