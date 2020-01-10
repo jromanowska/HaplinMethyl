@@ -8,8 +8,15 @@
 
 	assign( ".haplinMethEnv", new.env(), envir = parent.env( environment() ) )
 
+	# number of columns of the ffmatrix in one chunk (used e.g. in envDataRead.R):
+	assign( ".nb.cols.per.chunk", 10000, envir = .haplinMethEnv )
+
 	# the name for the columns in the ff data
 	assign( ".env.cols.name", "env.cols", envir = .haplinMethEnv )
+
+	# mode for creating the ff objects:
+	# first, for the raw genetic data (i.e., alleles)
+	assign( ".vmode.gen.data", "byte", envir = .haplinMethEnv )
 
 	# setting the class of the read in data
 	#   - continuous data:

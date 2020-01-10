@@ -9,14 +9,14 @@ findCpGsnearSNP(snp = stop("'snp' is required!", call. = FALSE),
   verbose = FALSE)
 }
 \arguments{
-\item{snp}{A named vector with SNP name ("marker"), chromosome no. ("chr") and
-coordinate ("coord").}
+\item{snp}{A named vector with SNP name ("marker"), chromosome no. ("chr")
+and coordinate ("coord").}
 
-\item{cpgs}{A table with all CpGs in a given chromosome, with the columns named:
-"id", "coord".}
+\item{cpgs}{A table with all CpGs in a given chromosome, with the columns
+named: "id", "coord".}
 
-\item{range}{Number giving the maximum distance from the SNP where the function will
-look for CpGs; default: 5000 (base pairs).}
+\item{range}{Number giving the maximum distance from the SNP where the
+function will look for CpGs; default: 5000 (base pairs).}
 
 \item{verbose}{Whether to display extra info about each SNP (default: FALSE).}
 }
@@ -27,7 +27,7 @@ A data.frame with CpGs with columns named: "id", "coord".
 This is a basic function for searching for CpGs in the vicinity of a given SNP
 }
 \details{
-Given a position and chromosome number of a SNP, along with a table of positions of CpGs
-  in this chromosome, the function will return a data.frame with nearby CpGs (within a
-  given limit).
+Given a position and chromosome number of a SNP, along with a table of
+  positions of CpGs in this chromosome, the function will return a data.frame
+  with nearby CpGs (within a given limit).
 }

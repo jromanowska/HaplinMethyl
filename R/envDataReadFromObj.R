@@ -51,7 +51,7 @@ envDataReadFromObj <- function(
 	}
 
 	## a list with different column-chunks
-	nb.cols.per.chunk <- get( ".nb.cols.per.chunk", envir = Haplin:::.haplinEnv )
+	nb.cols.per.chunk <- get( ".nb.cols.per.chunk", envir = .haplinMethEnv )
 	nb.cols.env.data <- ncol( obj.in )
 	nb.col.chunks <- ceiling( nb.cols.env.data / nb.cols.per.chunk )
 	nb.rows.tot <- nrow( obj.in )
@@ -68,7 +68,7 @@ envDataReadFromObj <- function(
 					  ( min( i*nb.cols.per.chunk, nb.cols.env.data ) )
 		if( !cont ){
 			tmp.env.data <- ff::ff( obj.in[ ,cur.cols ],
-				vmode = Haplin:::.haplinEnv$.vmode.gen.data,
+				vmode = .haplinMethEnv$.vmode.gen.data,
 				levels = env.levels,
 				dim = c(
 					nb.rows.tot,

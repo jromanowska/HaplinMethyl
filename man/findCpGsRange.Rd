@@ -9,8 +9,8 @@ findCpGsRange(range, cpgs)
 \arguments{
 \item{range}{A vector with start and end position of the range.}
 
-\item{cpgs}{A table with all CpGs in a given chromosome, with the columns named:
-"id", "coord".}
+\item{cpgs}{A table with all CpGs in a given chromosome, with the columns
+named: "id", "coord".}
 }
 \value{
 A data.frame with CpGs with columns named: "id", "coord".
@@ -19,6 +19,7 @@ A data.frame with CpGs with columns named: "id", "coord".
 This is a basic function for searching for CpGs within a given coordinate range
 }
 \details{
-Given a position range and chromosome number, along with a table of positions of CpGs
-  in this chromosome, the function will return a data.frame with the chosen CpGs.
+Given a position range and chromosome number, along with a table of positions
+  of CpGs in this chromosome, the function will return a data.frame with
+  the chosen CpGs.
 }

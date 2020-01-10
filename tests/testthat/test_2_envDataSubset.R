@@ -2,8 +2,15 @@ context( "Testing envDataSubset function." )
 
 source( "common_vars.R" )
 
-test.read.in <- envDataLoad( my.env.data.all.names.out )
 examples.dir <- system.file( "extdata", package = "HaplinMethyl" )
+test.read.in <- envDataRead( my.env.data.all.names.in,
+	dir.in = examples.dir,
+	file.out = my.env.data.all.names.out,
+	sep = " ",
+	cont = TRUE,
+	header = TRUE,
+	rownames = TRUE,
+	overwrite = TRUE )
 test.read.row.names.in 	<- envDataRead( my.env.data.row.names.in,
 		dir.in = examples.dir,
 		file.out = my.env.data.row.names.out,

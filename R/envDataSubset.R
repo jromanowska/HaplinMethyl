@@ -189,7 +189,7 @@ envDataSubset <- function( env.data = stop( "You need to specify the data!",
 	if( is.subset.cols ){
 		# check how many chunks will be needed
 		nb.cols.per.chunk <- get( ".nb.cols.per.chunk",
-								  envir = Haplin:::.haplinEnv )
+								  envir = .haplinMethEnv )
 		nb.chunks <- ceiling( length( final.col.sel ) / nb.cols.per.chunk )
 
 		# extract data, chunk by chunk

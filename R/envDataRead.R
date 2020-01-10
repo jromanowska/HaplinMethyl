@@ -138,7 +138,7 @@ envDataRead <- function( file.in = stop( "'file.in' must be given!" ),
 			env.levels <- as.character( union( env.levels, cur.levels ) )
 
 			tmp.ff <- ff::as.ff( cur.chunk,
-								 vmode = Haplin:::.haplinEnv$.vmode.gen.data,
+								 vmode = .haplinMethEnv$.vmode.gen.data,
 								 levels = env.levels )
 		} else { # data consists of continuous variables
 			tmp.ff <- ff::as.ff( cur.chunk, vmode = "single" )
@@ -164,7 +164,7 @@ envDataRead <- function( file.in = stop( "'file.in' must be given!" ),
 
 	## re-organize - it's much better to have a list with different column-chunks
 	nb.cols.per.chunk <- get( ".nb.cols.per.chunk",
-							  envir = Haplin:::.haplinEnv )
+							  envir = .haplinMethEnv )
 	nb.cols.env.data <- ncol( env.data.in.ff[[1]] )
 	nb.col.chunks <- ceiling( nb.cols.env.data / nb.cols.per.chunk )
 	env.data.col.wise <- list()
@@ -174,7 +174,7 @@ envDataRead <- function( file.in = stop( "'file.in' must be given!" ),
 		cur.cols <- ( ( i-1 )*nb.cols.per.chunk + 1 ):
 					  ( min( i*nb.cols.per.chunk, nb.cols.env.data ) )
 		if( !cont ){
-			tmp.env.data <- ff::ff( vmode = Haplin:::.haplinEnv$.vmode.gen.data,
+			tmp.env.data <- ff::ff( vmode = .haplinMethEnv$.vmode.gen.data,
 				levels = env.levels,
 				dim = c( nb.rows.tot,
 						 min( nb.cols.per.chunk,

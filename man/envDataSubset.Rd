@@ -23,9 +23,10 @@ envDataSubset(env.data = stop("You need to specify the data!", call. =
 
 \item{dir.out}{The path to the directory where the output files will be saved.}
 
-\item{overwrite}{Whether to overwrite the output files: if NULL (default), will prompt
-the user to give answer; set to TRUE, will automatically overwrite any existing files;
-and set to FALSE, will stop if the output files exist.}
+\item{overwrite}{Whether to overwrite the output files: if NULL (default),
+will prompt the user to give answer; set to TRUE, will automatically
+overwrite any existing files; and set to FALSE, will stop if the output
+files exist.}
 }
 \value{
 A matrix with the subset of data.
@@ -35,7 +36,7 @@ Extract a subset of environmental data by specifying rows and/or columns.
 }
 \section{Warning}{
 
-  The parameter \code{col.names} cannot be used jointly with \code{col.ids}, similarly
-  for the rows!
+  The parameter \code{col.names} cannot be used jointly with \code{col.ids},
+  similarly for the rows!
 }
 

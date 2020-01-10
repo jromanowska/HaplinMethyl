@@ -11,8 +11,8 @@ envDataLoad(filename = stop("'filename' must be given!"), dir.in = ".")
 "my_data_env.ffData" and "my_data_env.RData", then the 'filename'
 should be "my_data".}
 
-\item{dir.in}{The path to the directory where files were saved (defaults to the
-current directory).}
+\item{dir.in}{The path to the directory where files were saved (defaults to
+the current directory).}
 }
 \value{
 A list of ffdf objects with the environmental data in numeric format.

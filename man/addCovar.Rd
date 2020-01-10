@@ -16,15 +16,17 @@ addCovar(data.in = stop("Data.in must be given!", call. = FALSE),
 \item{c.name}{The name of the column that will be added to \code{cov.data}.}
 }
 \value{
-An object of the same class as \code{data.in} but with additional covariates.
+An object of the same class as \code{data.in} but with additional
+  covariates.
 }
 \description{
-Easily add a column to \code{cov.data} part of the "haplin.data" or "haplin.ready" object
+Easily add a column to \code{cov.data} part of the "haplin.data" or
+  "haplin.ready" object
 }
 \details{
-Add a character or integer vector to the "cov.data" part of the "haplin.data" or
-  "haplin.ready" object. This is useful e.g., when preparing for stratification
-  analysis (with \code{\link{haplinStrat}}). Note that all the parameters are required
-  and that \code{covar} needs to be a vector of the length equal to the number of
-  rows in the \code{data.in}.
+Add a character or integer vector to the "cov.data" part of the "haplin.data"
+  or "haplin.ready" object. This is useful e.g., when preparing for
+  stratification analysis (with \code{\link{haplinStrat}}). Note that all
+  the parameters are required and that \code{covar} needs to be a vector of
+  the length equal to the number of rows in the \code{data.in}.
 }

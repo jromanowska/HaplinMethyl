@@ -16,5 +16,6 @@ ncolumns(obj)
 integer
 }
 \description{
-\code{nrows} and \code{ncolumns} return the number of rows or columns present in obj.
+\code{nrows} and \code{ncolumns} return the number of rows or columns present
+ in obj.
 }
