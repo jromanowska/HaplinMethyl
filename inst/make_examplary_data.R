@@ -11,8 +11,6 @@ rownames( data.tmp ) <- row.names
 
 source( "../tests/testthat/common_vars.R" )
 # write the data with both column and row names
-# NB! can't just use "rownames" and "colnames" because when reading in, the first column
-#    first row is non-existent!
 write.table( rbind( c( 0, col.names ),
 				cbind( row.names, data.tmp )
 			 ),

@@ -1,6 +1,7 @@
 #' Number of rows/columns of env.data
 #'
-#' \code{nrows} and \code{ncolumns} return the number of rows or columns present in obj.
+#' \code{nrows} and \code{ncolumns} return the number of rows or columns present
+#'  in obj.
 #'
 #' @param obj env.cont or env.cat data, read in by \link{envDataRead}.
 #'

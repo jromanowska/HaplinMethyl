@@ -22,7 +22,8 @@ test_that( "Reading the data correctly", {
 
 test_that( "Providing vector of row names", {
 	examples.dir <- system.file( "extdata", package = "HaplinMethyl" )
-	rownames <- scan( file = file.path( examples.dir, only.row.names ), what = "character" )
+	rownames <- scan( file = file.path( examples.dir, only.row.names ),
+					  what = "character" )
 	test.read.in <- envDataRead( my.env.data.col.names.in,
 		dir.in = examples.dir,
 		file.out = my.env.data.col.names.out,

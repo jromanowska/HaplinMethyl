@@ -6,8 +6,8 @@
 #' @param filename The base of the filenames; i.e. if the data is saved in
 #'  "my_data_env.ffData" and "my_data_env.RData", then the 'filename'
 #'  should be "my_data".
-#' @param dir.in The path to the directory where files were saved (defaults to the
-#'  current directory).
+#' @param dir.in The path to the directory where files were saved (defaults to
+#'  the current directory).
 #'
 #' @return A list of ffdf objects with the environmental data in numeric format.
 #'
@@ -23,7 +23,8 @@ envDataLoad <- function( filename = stop( "'filename' must be given!" ),
 
 	env.cols.name <- get( ".env.cols.name", envir = .haplinMethEnv )
 	file.in.base <- paste( dir.in, "/", filename, "_env", sep = "" )
-	suppressWarnings( ff::ffload( file.in.base, rootpath = getOption( "fftempdir" ) ) )
+	suppressWarnings( ff::ffload( file.in.base,
+								  rootpath = getOption( "fftempdir" ) ) )
 	loaded.objects <- ls( pattern = paste0( env.cols.name, ".[[:digit:]]" ) )
 
 	# maintain the correct order!
@@ -50,12 +51,15 @@ envDataLoad <- function( filename = stop( "'filename' must be given!" ),
 	# "cont" is loaded during 'ffload' above
 	if( exists( "cont" ) ){
 		if( cont ){
-			class( env.data.col.wise ) <- get( ".class.data.env.cont", envir = .haplinMethEnv )
+			class( env.data.col.wise ) <- get( ".class.data.env.cont",
+											   envir = .haplinMethEnv )
 		} else {
-			class( env.data.col.wise ) <- get( ".class.data.env.cat", envir = .haplinMethEnv )
+			class( env.data.col.wise ) <- get( ".class.data.env.cat",
+											   envir = .haplinMethEnv )
 		}
 	} else {
-		stop( "Problem with the loaded data: 'cont' variable not found!", call. = FALSE )
+		stop( "Problem with the loaded data: 'cont' variable not found!",
+			  call. = FALSE )
 	}
 	return( env.data.col.wise )
 }

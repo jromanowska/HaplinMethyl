@@ -9,18 +9,20 @@
 #' @param row.ids Numeric vector with row IDs (optional).
 #' @param file.out The base for the output filename (default: "my_data_part").
 #' @param dir.out The path to the directory where the output files will be saved.
-#' @param overwrite Whether to overwrite the output files: if NULL (default), will prompt
-#'   the user to give answer; set to TRUE, will automatically overwrite any existing files;
-#'   and set to FALSE, will stop if the output files exist.
+#' @param overwrite Whether to overwrite the output files: if NULL (default),
+#'   will prompt the user to give answer; set to TRUE, will automatically
+#'   overwrite any existing files; and set to FALSE, will stop if the output
+#'   files exist.
 #'
 #' @section Warning:
-#'   The parameter \code{col.names} cannot be used jointly with \code{col.ids}, similarly
-#'   for the rows!
+#'   The parameter \code{col.names} cannot be used jointly with \code{col.ids},
+#'   similarly for the rows!
 #'
 #' @return A matrix with the subset of data.
 #'
 #' @export
-envDataSubset <- function( env.data = stop( "You need to specify the data!", call. = FALSE ),
+envDataSubset <- function( env.data = stop( "You need to specify the data!",
+											call. = FALSE ),
 						   col.names,
 						   row.names,
 						   col.ids,
@@ -117,7 +119,8 @@ envDataSubset <- function( env.data = stop( "You need to specify the data!", cal
 	# ---- col.ids ----
 	if( !missing( col.ids ) ){
 		if( !is.numeric( col.ids ) ){
-			stop( "Parameter 'col.ids' should be an integer vector!", call. =  FALSE )
+			stop( "Parameter 'col.ids' should be an integer vector!",
+				  call. =  FALSE )
 		}
 		if( any( col.ids < 1 ) |
 			any( col.ids > info.env.data$ncol ) ){
@@ -130,7 +133,8 @@ envDataSubset <- function( env.data = stop( "You need to specify the data!", cal
 	# ---- row.ids ----
 	if( !missing( row.ids ) ){
 		if( !is.numeric( row.ids ) ){
-			stop( "Parameter 'row.ids' should be an integer vector!", call. =  FALSE )
+			stop( "Parameter 'row.ids' should be an integer vector!",
+				  call. =  FALSE )
 		}
 		if( any( row.ids < 1 ) |
 			any( row.ids > info.env.data$nrow ) ){
@@ -184,7 +188,8 @@ envDataSubset <- function( env.data = stop( "You need to specify the data!", cal
 
 	if( is.subset.cols ){
 		# check how many chunks will be needed
-		nb.cols.per.chunk <- get( ".nb.cols.per.chunk", envir = Haplin:::.haplinEnv )
+		nb.cols.per.chunk <- get( ".nb.cols.per.chunk",
+								  envir = Haplin:::.haplinEnv )
 		nb.chunks <- ceiling( length( final.col.sel ) / nb.cols.per.chunk )
 
 		# extract data, chunk by chunk
@@ -227,13 +232,15 @@ envDataSubset <- function( env.data = stop( "You need to specify the data!", cal
 	# ---- saving the chosen part of the data----
 	cat( "Saving data... \n" )
 	cur.names <- c()
-	for( i in 1:length( env.data.col.wise ) ){
-		cur.name <- paste( get( ".env.cols.name", envir = .haplinMethEnv ), i, sep = "." )
+	for( i in seq_along( env.data.col.wise ) ){
+		cur.name <- paste( get( ".env.cols.name", envir = .haplinMethEnv ), i,
+						   sep = "." )
 		assign( cur.name, env.data.col.wise[[i]] )
 		cur.names <- c( cur.names, cur.name )
 	}
 	save.list <- c( cur.names, "cont.data" )
-	ff::ffsave( list = save.list, file = file.path( dir.out, files.list$file.out.base ) )
+	ff::ffsave( list = save.list,
+				file = file.path( dir.out, files.list$file.out.base ) )
 	cat( "... saved to files: ", files.list$file.out.ff, ", ",
 		 files.list$file.out.aux, "\n", sep = "" )
 

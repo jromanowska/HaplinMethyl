@@ -6,7 +6,8 @@ print.env.data <- function( x, cont = TRUE ){
 		what.data <- "categorical"
 	}
 
-	cat( paste( "This is", what.data, "environmental data read in by 'envDataRead'\n" ) )
+	cat( paste( "This is", what.data,
+				"environmental data read in by 'envDataRead'\n" ) )
 	cat( paste( "with", ncolumns( x ), "columns\n" ) )
 	cat( paste( "and", nrows( x ), "rows." ) )
 }

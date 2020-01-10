@@ -25,12 +25,13 @@ test_that( "Wrong input format", {
 
 test_that( "Duplicate arguments: columns", {
 	expect_error( envDataSubset( test.read.in, overwrite = TRUE,
-								 col.ids = subset.seq, col.names = subset.seq ) )
+								col.ids = subset.seq, col.names = subset.seq ) )
 })
 
 test_that( "Subsetting only columns, by number", {
 	cols.out <- subset.seq
-	subset.out <- envDataSubset( test.read.in, col.ids = cols.out, overwrite = TRUE )
+	subset.out <- envDataSubset( test.read.in, col.ids = cols.out,
+								 overwrite = TRUE )
 
 	expect_s3_class( subset.out, class = "env.data" )
 	expect_equal( colnames( subset.out[[ 1 ]] ),
@@ -41,7 +42,8 @@ test_that( "Subsetting only columns, by number", {
 
 test_that( "Subsetting only rows, by number", {
 	rows.out <- subset.seq
-	subset.out <- envDataSubset( test.read.in, row.ids = rows.out, overwrite = TRUE )
+	subset.out <- envDataSubset( test.read.in, row.ids = rows.out,
+								 overwrite = TRUE )
 
 	expect_s3_class( subset.out, class = "env.data" )
 	expect_equal( colnames( subset.out[[ 1 ]] ),
@@ -52,7 +54,8 @@ test_that( "Subsetting only rows, by number", {
 
 test_that( "Subsetting only columns, by names", {
 	cols.out <- paste0( "cg", subset.seq )
-	subset.out <- envDataSubset( test.read.in, col.names = cols.out, overwrite = TRUE )
+	subset.out <- envDataSubset( test.read.in, col.names = cols.out,
+								 overwrite = TRUE )
 
 	expect_s3_class( subset.out, class = "env.data" )
 	expect_equal( colnames( subset.out[[ 1 ]] ),
@@ -63,18 +66,21 @@ test_that( "Subsetting only columns, by names", {
 
 test_that( "Subsetting only columns, by names, wrong format", {
 	cols.out <- subset.seq
-	expect_error( envDataSubset( test.read.in, col.names = cols.out, overwrite = TRUE ) )
+	expect_error( envDataSubset( test.read.in, col.names = cols.out,
+								 overwrite = TRUE ) )
 } )
 
 test_that( "Subsetting only columns, by names, no col.names in input", {
 	cols.out <- paste0( "cg", subset.seq )
 	expect_error(
-		envDataSubset( test.read.row.names.in, col.names = cols.out, overwrite = TRUE ) )
+		envDataSubset( test.read.row.names.in, col.names = cols.out,
+					   overwrite = TRUE ) )
 } )
 
 test_that( "Subsetting only rows, by number", {
 	rows.out <- paste0( "id", subset.seq )
-	subset.out <- envDataSubset( test.read.in, row.names = rows.out, overwrite = TRUE )
+	subset.out <- envDataSubset( test.read.in, row.names = rows.out,
+								 overwrite = TRUE )
 
 	expect_s3_class( subset.out, class = "env.data" )
 	expect_equal( colnames( subset.out[[ 1 ]] ),

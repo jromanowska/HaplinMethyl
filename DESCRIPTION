@@ -18,3 +18,4 @@ Description: Reading in and handling of large environmental data matrices that a
 License: GPL (>= 2)
 URL: http://folk.uib.no/gjessing/genetics/software/haplin/
 RoxygenNote: 6.1.1
+BugReports: https://bitbucket.org/jrom/haplinmethyl/issues

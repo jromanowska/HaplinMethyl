@@ -1,43 +1,44 @@
 #' Reading the environmental data from a file.
 #'
-#' This function reads in the environmental data that accompanies the genetic data
-#' read in with \link{genDataRead}.
+#' This function reads in the environmental data that accompanies the genetic
+#'  data read in with \link{genDataRead}.
 #'
 #' The environmental data such as methylation data can be large if the information
-#' is stored on per-SNP basis. Thus, when data is large, this function reads it in and
-#' creates a special ff object that stores the data without limiting the memory
-#' available. This can take time but needs to be performed only once. Later on, one can
-#' use the \link{envDataLoad} function to load the appropriate data from \code{.ffData}
-#' file saved to disk, which is a quick process.
+#' is stored on per-SNP basis. Thus, when data is large, this function reads it
+#' in andcreates a special ff object that stores the data without limiting the
+#' memory available. This can take time but needs to be performed only once.
+#' Later on, one can use the \link{envDataLoad} function to load the appropriate
+#' data from \code{.ffData} file saved to disk, which is a quick process.
 #'
 #' @param file.in The name of the file with environmental data.
 #' @param dir.in The path to the directory where the 'file.in' resides.
 #' @param file.out The base name for the output files (see Details).
 #' @param dir.out The path to the directory where the output files will be saved.
-#' @param sep The separator character that separates values in each line of the file;
-#'   "," by default (as in a csv file).
-#' @param cont Logical - are the values continuous (TRUE, default) or categories (FALSE)?
-#'   See Details.
+#' @param sep The separator character that separates values in each line of the
+#'   file; "," by default (as in a csv file).
+#' @param cont Logical - are the values continuous (TRUE, default) or categories
+#'   (FALSE)? See Details.
 #' @param header Logical indicating whether the first line of the file is a header;
 #'   default TRUE.
-#' @param rownames Default (TRUE) indicates that the first column of the file includes
-#'   names of rows. If a character vector is given here, these names are used as rownames;
-#'   if FALSE, no rownames are used.
-#' @param overwrite Logical: if a file with the given name exists, should it be overwritten
-#'   or not? If NULL, the user will be prompt for input.
+#' @param rownames Default (TRUE) indicates that the first column of the file
+#'   includes names of rows. If a character vector is given here, these names
+#'   are used as rownames; if FALSE, no rownames are used.
+#' @param overwrite Logical: if a file with the given name exists, should it be
+#'   overwritten or not? If NULL, the user will be prompt for input.
 #'
 #' @return A list of ffdf objects with the environmental data in numeric format.
 #'
 #' @section Details:
-#' If 'file.out' is not given, the default is NULL and the output filenames are constructed
-#'   based on the input filenames. The '_env' suffix is added to the base name and the
-#'   \code{.ffData} file is written to disk. This file contains all the information needed
-#'   to restore the ffdf object by calling \link{envDataLoad} function later on.
+#' If 'file.out' is not given, the default is NULL and the output filenames are
+#'   constructed based on the input filenames. The '_env' suffix is added to the
+#'   base name and the \code{.ffData} file is written to disk. This file contains
+#'   all the information needed to restore the ffdf object by calling
+#'   \link{envDataLoad} function later on.
 #'
-#'   If 'cont' is TRUE (default), the output data will be a list of ff matrices containing
-#'   single-precision values. However, before using this data as stratification values,
-#'   the user needs to create categories - this can be done manually or with the provided
-#'   \link{envDataCategorize} function.
+#'   If 'cont' is TRUE (default), the output data will be a list of ff matrices
+#'   containing single-precision values. However, before using this data as
+#'   stratification values, the user needs to create categories - this can be
+#'   done manually or with the provided \link{envDataCategorize} function.
 #'
 #' @export
 #'
@@ -57,8 +58,9 @@ envDataRead <- function( file.in = stop( "'file.in' must be given!" ),
 		stop( "The file(s) doesn't seem to exist!", call. = FALSE )
 	}
 
-	files.list <- Haplin:::f.make.out.filename( file.in, file.out, dir.out = dir.out,
-												root = "env", overwrite = overwrite )
+	files.list <- Haplin:::f.make.out.filename(
+		file.in, file.out, dir.out = dir.out,
+		root = "env", overwrite = overwrite )
 
 	rownames.first.col <- FALSE
 	env.rownames <- c()
@@ -88,7 +90,9 @@ envDataRead <- function( file.in = stop( "'file.in' must be given!" ),
 	message( " -- chunk ", i, "-- \n" )
 	cur.chunk <- suppressWarnings(
 		matrix(
-			scan( in.file, what = "character", nlines = nb.lines.per.chunk, sep = sep ),
+			scan( in.file, what = "character",
+				  nlines = nb.lines.per.chunk,
+				  sep = sep ),
 			ncol = nb.cols, byrow = TRUE
 			)
 		)
@@ -133,7 +137,8 @@ envDataRead <- function( file.in = stop( "'file.in' must be given!" ),
 			cur.levels <- unique( as.vector( cur.chunk ) )
 			env.levels <- as.character( union( env.levels, cur.levels ) )
 
-			tmp.ff <- ff::as.ff( cur.chunk, vmode = Haplin:::.haplinEnv$.vmode.gen.data,
+			tmp.ff <- ff::as.ff( cur.chunk,
+								 vmode = Haplin:::.haplinEnv$.vmode.gen.data,
 								 levels = env.levels )
 		} else { # data consists of continuous variables
 			tmp.ff <- ff::as.ff( cur.chunk, vmode = "single" )
@@ -147,7 +152,9 @@ envDataRead <- function( file.in = stop( "'file.in' must be given!" ),
 		i <- i + 1
 		message( " -- chunk ", i, "-- \n" )
 		cur.chunk <- matrix(
-			scan( in.file, what = "character", nlines = nb.lines.per.chunk, sep = sep ),
+			scan( in.file, what = "character",
+				  nlines = nb.lines.per.chunk,
+				  sep = sep ),
 			ncol = nb.cols, byrow = TRUE
 			)
 	}
@@ -156,25 +163,31 @@ envDataRead <- function( file.in = stop( "'file.in' must be given!" ),
 	close( in.file )
 
 	## re-organize - it's much better to have a list with different column-chunks
-	nb.cols.per.chunk <- get( ".nb.cols.per.chunk", envir = Haplin:::.haplinEnv )
+	nb.cols.per.chunk <- get( ".nb.cols.per.chunk",
+							  envir = Haplin:::.haplinEnv )
 	nb.cols.env.data <- ncol( env.data.in.ff[[1]] )
 	nb.col.chunks <- ceiling( nb.cols.env.data / nb.cols.per.chunk )
 	env.data.col.wise <- list()
 
 	message( "Preparing data...\n" )
 	for( i in 1:nb.col.chunks ){
-		cur.cols <- ( ( i-1 )*nb.cols.per.chunk + 1 ):( min( i*nb.cols.per.chunk, nb.cols.env.data ) )
+		cur.cols <- ( ( i-1 )*nb.cols.per.chunk + 1 ):
+					  ( min( i*nb.cols.per.chunk, nb.cols.env.data ) )
 		if( !cont ){
 			tmp.env.data <- ff::ff( vmode = Haplin:::.haplinEnv$.vmode.gen.data,
 				levels = env.levels,
 				dim = c( nb.rows.tot,
-						 min( nb.cols.per.chunk, max( cur.cols ) - min( cur.cols ) + 1 )
+						 min( nb.cols.per.chunk,
+						 	 max( cur.cols ) - min( cur.cols ) + 1
+						 	 )
 						 )
 				)
 		} else {
 			tmp.env.data <- ff::ff( vmode = "single",
 				dim = c( nb.rows.tot,
-					min( nb.cols.per.chunk, max( cur.cols ) - min( cur.cols ) + 1 )
+					min( nb.cols.per.chunk,
+						 max( cur.cols ) - min( cur.cols ) + 1
+						 )
 					)
 				)
 		}
@@ -207,13 +220,16 @@ envDataRead <- function( file.in = stop( "'file.in' must be given!" ),
 		save.list <- c( save.list, cur.name )
 	}
 	save.list <- c( save.list, "cont" )
-	ff::ffsave( list = save.list, file = file.path( dir.out, files.list$file.out.base ) )
+	ff::ffsave( list = save.list,
+				file = file.path( dir.out, files.list$file.out.base ) )
 	message( "... saved to file: ", files.list$file.out.ff, "\n" )
 
 	if( cont ){
-		class( env.data.col.wise ) <- get( ".class.data.env.cont", envir = .haplinMethEnv )
+		class( env.data.col.wise ) <- get( ".class.data.env.cont",
+										   envir = .haplinMethEnv )
 	} else {
-		class( env.data.col.wise ) <- get( ".class.data.env.cat", envir = .haplinMethEnv )
+		class( env.data.col.wise ) <- get( ".class.data.env.cat",
+										   envir = .haplinMethEnv )
 	}
 	return( env.data.col.wise )
 }

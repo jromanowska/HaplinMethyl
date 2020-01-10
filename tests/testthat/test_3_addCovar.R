@@ -5,12 +5,14 @@ source( "common_vars.R" )
 dir.exmpl <- system.file( "extdata", package = "Haplin" )
 exemplary.file1 <- paste0( dir.exmpl, "/HAPLIN.trialdata.txt" )
 
-my.gen.data.haplin <- Haplin::genDataRead( file.in = exemplary.file1, file.out = "trial_data1",
-	dir.out = tempdir(), format = "haplin", n.vars = 0, overwrite = TRUE )
+my.gen.data.haplin <- Haplin::genDataRead( file.in = exemplary.file1,
+	file.out = "trial_data1", dir.out = tempdir(), format = "haplin", n.vars = 0,
+	overwrite = TRUE )
 
 exemplary.file2 <- paste0( dir.exmpl, "/HAPLIN.trialdata2.txt" )
-my.gen.data.haplin2 <- Haplin::genDataRead( file.in = exemplary.file2, file.out = "trial_data2",
-	dir.out = tempdir(), format = "haplin", n.vars = 2, allele.sep = "", overwrite = TRUE )
+my.gen.data.haplin2 <- Haplin::genDataRead( file.in = exemplary.file2,
+	file.out = "trial_data2", dir.out = tempdir(), format = "haplin", n.vars = 2,
+	allele.sep = "", overwrite = TRUE )
 
 exemplary.file3 <- paste0( dir.exmpl, "/exmpl_data.ped" )
 my.gen.data <- Haplin::genDataRead( exemplary.file3, file.out = "ped_data",

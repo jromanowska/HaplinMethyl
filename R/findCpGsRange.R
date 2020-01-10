@@ -2,12 +2,13 @@
 #'
 #' This is a basic function for searching for CpGs within a given coordinate range
 #'
-#' Given a position range and chromosome number, along with a table of positions of CpGs
-#'   in this chromosome, the function will return a data.frame with the chosen CpGs.
+#' Given a position range and chromosome number, along with a table of positions
+#'   of CpGs in this chromosome, the function will return a data.frame with
+#'   the chosen CpGs.
 #'
 #' @param range A vector with start and end position of the range.
-#' @param cpgs A table with all CpGs in a given chromosome, with the columns named:
-#'    "id", "coord".
+#' @param cpgs A table with all CpGs in a given chromosome, with the columns
+#'     named: "id", "coord".
 #'
 #' @return A data.frame with CpGs with columns named: "id", "coord".
 #'
@@ -31,5 +32,6 @@ findCpGsRange <- function( range,
 		return( NULL )
 	}
 
-	return( data.frame( id = cpgs$id[ close.cpgs ], coord = cpgs$coord[ close.cpgs ] ) )
+	return( data.frame( id = cpgs$id[ close.cpgs ],
+						coord = cpgs$coord[ close.cpgs ] ) )
 }
