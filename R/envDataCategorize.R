@@ -66,13 +66,15 @@ envDataCategorize <- function(
 	#--------------------------------------------
 
 	find.range.ff <- function( x,y ){
-		new.range <- c()
-		for( i in 1:nrow( y ) ){
-			new.range <- range( c( new.range, range( y[i] ) ) )
-		}
-		new.range
+		new.range <- range( c( x, apply( y[,], 1, range ) ) )
+		return( new.range )
 	}
-	range.all <- Reduce( f = find.range.ff, x = env.data )
+	if( length( env.data ) > 1 ){
+		range.all <- Reduce( f = find.range.ff, x = env.data, init = c() )
+	} else {
+		range.all <- range( apply( env.data[[ 1 ]][,], 1, range ) )
+	}
+
 
 	if( length( breaks ) == 1 ){
 		breaks <- seq( from = range.all[ 1 ],

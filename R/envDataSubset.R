@@ -35,7 +35,8 @@ envDataSubset <- function( env.data = stop( "You need to specify the data!",
 	files.list <- Haplin:::f.make.out.filename( file.out = file.out,
 		dir.out = dir.out, overwrite = overwrite )
 
-	if( nargs() == 1 ){
+	if( nargs() == 1 |
+		( nargs() == 2 & !missing( overwrite ) ) ){
 		stop( "Have you forgotten to specify what do you want?", call. = FALSE )
 	}
 	if( !inherits( env.data, "env.data" ) ){

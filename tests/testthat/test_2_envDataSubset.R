@@ -12,13 +12,13 @@ test.read.in <- envDataRead( my.env.data.all.names.in,
 	rownames = TRUE,
 	overwrite = TRUE )
 test.read.row.names.in 	<- envDataRead( my.env.data.row.names.in,
-		dir.in = examples.dir,
-		file.out = my.env.data.row.names.out,
-		sep = " ",
-		cont = TRUE,
-		header = FALSE,
-		rownames = TRUE,
-		overwrite = TRUE )
+	dir.in = examples.dir,
+	file.out = my.env.data.row.names.out,
+	sep = " ",
+	cont = TRUE,
+	header = FALSE,
+	rownames = TRUE,
+	overwrite = TRUE )
 
 subset.seq <- c( 3, 5, 10, 121 )
 

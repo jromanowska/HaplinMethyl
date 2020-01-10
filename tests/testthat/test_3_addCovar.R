@@ -71,7 +71,7 @@ test_that( "input data in wrong format",{
 } )
 
 test_that( "Covar is not a vector",{
-	covar.tmp <- "blabla"
+	covar.tmp <- matrix( rep( "a", 12 ), ncol = 3 )
 	c.name <- "add.c"
 	expect_error( addCovar( my.gen.data.haplin, covar = covar.tmp, c.name = c.name ) )
 } )
