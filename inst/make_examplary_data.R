@@ -1,6 +1,6 @@
 # creating exemplary data: matrix with values [0;1]
 nrow.out <- 200
-ncol.out <- 1000
+ncol.out <- 400
 
 col.names <- paste0( "cg", seq_len( ncol.out ) )
 row.names <- paste0( "id", seq_len( nrow.out ) )

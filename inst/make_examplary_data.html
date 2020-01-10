@@ -12,7 +12,7 @@
 
 <meta name="author" content="jro049" />
 
-<meta name="date" content="2020-01-09" />
+<meta name="date" content="2020-01-10" />
 
 <title>make_examplary_data.utf8.md</title>
 
@@ -365,14 +365,14 @@ summary {
 
 <h1 class="title toc-ignore">make_examplary_data.R</h1>
 <h4 class="author">jro049</h4>
-<h4 class="date">2020-01-09</h4>
+<h4 class="date">2020-01-10</h4>
 
 </div>
 
 
 <pre class="r"><code># creating exemplary data: matrix with values [0;1]
 nrow.out &lt;- 200
-ncol.out &lt;- 1000
+ncol.out &lt;- 400
 
 col.names &lt;- paste0( &quot;cg&quot;, seq_len( ncol.out ) )
 row.names &lt;- paste0( &quot;id&quot;, seq_len( nrow.out ) )
@@ -383,8 +383,6 @@ rownames( data.tmp ) &lt;- row.names
 
 source( &quot;../tests/testthat/common_vars.R&quot; )
 # write the data with both column and row names
-# NB! can't just use &quot;rownames&quot; and &quot;colnames&quot; because when reading in, the first column
-#    first row is non-existent!
 write.table( rbind( c( 0, col.names ),
                 cbind( row.names, data.tmp )
              ),
