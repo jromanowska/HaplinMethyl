@@ -23,6 +23,7 @@ envDataLoad <- function( filename = stop( "'filename' must be given!" ),
 
 	env.cols.name <- get( ".env.cols.name", envir = .haplinMethEnv )
 	file.in.base <- paste( dir.in, "/", filename, "_env", sep = "" )
+	cont <- NULL
 	suppressWarnings( ff::ffload( file.in.base,
 								  rootpath = getOption( "fftempdir" ) ) )
 	loaded.objects <- ls( pattern = paste0( env.cols.name, ".[[:digit:]]" ) )
@@ -49,7 +50,7 @@ envDataLoad <- function( filename = stop( "'filename' must be given!" ),
 	}
 
 	# "cont" is loaded during 'ffload' above
-	if( exists( "cont" ) ){
+	if( !is.null( cont ) ){
 		if( cont ){
 			class( env.data.col.wise ) <- get( ".class.data.env.cont",
 											   envir = .haplinMethEnv )

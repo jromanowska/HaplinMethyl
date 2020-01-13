@@ -81,20 +81,14 @@ envDataCategorize <- function(
 					   to = range.all[ 2 ],
 					   length.out = breaks + 1 )
 	} else {
-		if( any( breaks > range.all[ 2 ] | breaks < range.all[ 1 ] ) ){
-			message( "Some 'breaks' are outside of the range of data values - will remove those." )
-			outside.breaks <- which( breaks > range.all[ 2 ] |
-									 	breaks < range.all[ 1 ] )
-			breaks <- breaks[ -outside.breaks ]
-			if( length( breaks ) < 2 ){
-				stop( "Too few break points remaining!", call. = FALSE )
-			}
+		if( length( breaks ) < 2 ){
+			stop( "Too few break points!", call. = FALSE )
 		}
 	}
 
 	n.bins <- length( breaks ) - 1
 	new.levels <- 0:( n.bins - 1 )
-	message( paste0( "Creating categories: ", new.levels, collapse = "," ) )
+	message( "Creating categories: ", paste( new.levels, collapse = "," ) )
 
 	# -- function that will be called on each element of env.data list
 	categorize.per.el <- function( el ){
@@ -113,6 +107,7 @@ envDataCategorize <- function(
 				# and write to the output ff matrix
 				env.data.cat[ ,col.no ] <- new.col
 			}
+			colnames( env.data.cat ) <- colnames( el )
 			return( env.data.cat )
 		}
 	# -- alternatively, function that will be called on each column of
@@ -124,8 +119,7 @@ envDataCategorize <- function(
 		new.col <- cut( cur.col, breaks = breaks,
 						labels = as.character( new.levels ),
 						include.lowest = TRUE )
-		# and write to the output ff matrix
-		env.data.cat[ ,col.no ] <- new.col
+		return( as.numeric( levels( new.col )[ new.col ] ) )
 	}
 
  	if( ncpu == 1 ){
@@ -156,8 +150,25 @@ envDataCategorize <- function(
 				  call. = FALSE )
 		}
 		#--------
-
-		out.data.list <- parallel::parLapply( cl, env.data, categorize.per.el )
+		# if env.data has more than one elements...
+		if( length( env.data ) > 1 ){
+			# divide the elements among CPUs
+			out.data.list <- parallel::parLapply( cl, env.data, categorize.per.el )
+		} else {
+			# take the single element and divide the columns among CPUs
+			out.data.col.list <- parallel::parLapply( cl,
+					seq_len( ncol( env.data[[ 1 ]] ) ),
+					categorize.per.col, el = env.data[[ 1 ]] )
+			# ... now, out.data.col.list is a list of factorized columns
+			out.matrix <- do.call( cbind, out.data.col.list )
+			out.ff <- ff::ff( out.matrix,
+							  levels = new.levels,
+							  dim = dim( env.data[[ 1 ]] ),
+							  vmode = "ushort" )
+			colnames( out.ff ) <- colnames( env.data[[ 1 ]] )
+			out.data.list <- list( out.ff )
+		}
+		parallel::stopCluster( cl )
  	}
 
 	class( out.data.list ) <- get( ".class.data.env.cat",
