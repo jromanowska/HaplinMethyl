@@ -96,27 +96,10 @@ envDataRead <- function( file.in = stop( "'file.in' must be given!" ),
 			ncol = nb.cols, byrow = TRUE
 			)
 		)
-	if( length( warnings() ) != 0 ){
-		# clearing the last warning:
-		assign( "last.warning", NULL, envir = baseenv() )
-
-		nb.cols <- nb.cols + 1
-		# 10 times smaller than above:
-		nb.lines.per.chunk <- ceiling( 100000000 / nb.cols )
-
-		cur.chunk <- matrix(
-			scan( in.file, what = "character", nlines = nb.lines.per.chunk,
-				  sep = sep, skip = 1 ),
-			ncol = nb.cols, byrow = TRUE
-			)
-		if( length( warnings() ) != 0 ){
-			stop( "Problem with data: the number of elements in rows is not the same.
-				  Have you provided a correct separator?" )
-		}
-
-		if( header ){
-			env.colnames <- first.line
-		}
+	if( ncol( cur.chunk ) == 1 &
+		rownames.first.col ){
+		stop( "Problem with data: have you provided a correct separator?",
+			  call. = FALSE )
 	} else {
 		if( header ){
 			env.colnames <- as.character( cur.chunk[ 1, ] )

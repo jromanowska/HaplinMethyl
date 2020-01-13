@@ -47,7 +47,7 @@ test_that( "Providing wrong separator", {
 	expect_error( envDataRead( my.env.data.all.names.in,
 		dir.in = examples.dir,
 		file.out = my.env.data.all.names.out,
-		sep = "5",
+		sep = ",",
 		cont = TRUE,
 		header = TRUE,
 		rownames = TRUE,
