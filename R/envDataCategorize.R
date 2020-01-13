@@ -94,24 +94,70 @@ envDataCategorize <- function(
 
 	n.bins <- length( breaks ) - 1
 	new.levels <- 0:( n.bins - 1 )
- 	if( ncpu == 1 ){
-		# begin with each column
-		out.data.list <- lapply( env.data, function( el ){
+	message( paste0( "Creating categories: ", new.levels, collapse = "," ) )
+
+	# -- function that will be called on each element of env.data list
+	categorize.per.el <- function( el ){
 			env.data.cat <- ff::ff( 0, levels = new.levels,
 									dim = dim( el ), vmode = "ushort" )
 
-			for( col.no in 1:ncol( el ) ){
-				cur.col <- Haplin:::f.extract.ff.numeric( el, cols = col.no )
-				new.col <- sapply( cur.col, function( x ){
-					first.larger <- which( x > breaks )[ 1 ]
-					first.larger - 2
-				} )
-				env.data.cat[ ,cur.col ] <- new.col
+			out.length <- nrow( el )
+			# NOTE: 'el' is an ff matrix, so I can't use apply
+			for( col.no in seq_len( ncol( el ) ) ){
+				# extract each column as a numeric
+				cur.col <- el[, col.no ]
+				# factorize
+				new.col <- cut( cur.col, breaks = breaks,
+								labels = as.character( new.levels ),
+								include.lowest = TRUE )
+				# and write to the output ff matrix
+				env.data.cat[ ,col.no ] <- new.col
 			}
 			return( env.data.cat )
-		} )
- 	} else {
- 		stop( "'ncpu' > 1 not yet implemented!" )
+		}
+	# -- alternatively, function that will be called on each column of
+	#    the ff matrix with env.data
+	categorize.per.col <- function( col.no, el ){
+		# extract each column as a numeric
+		cur.col <- el[, col.no ]
+		# factorize
+		new.col <- cut( cur.col, breaks = breaks,
+						labels = as.character( new.levels ),
+						include.lowest = TRUE )
+		# and write to the output ff matrix
+		env.data.cat[ ,col.no ] <- new.col
+	}
+
+ 	if( ncpu == 1 ){
+ 		message( "Using 1 CPU." )
+		# for each element in the list...
+		out.data.list <- lapply( env.data, categorize.per.el )
+ 	} else { # if ncpu > 1
+		if( !requireNamespace( "parallel" ) ){
+			stop( "You wanted to run a parallel process but the 'parallel' package is not available!" )
+		}
+		max.ncpu <- parallel::detectCores()
+		ncpu <- min( max.ncpu, ncpu )
+		message( paste0( "Using ", ncpu, " CPUs." ) )
+		cl <- parallel::makeCluster( ncpu, type = "SOCK" )
+		invisible( parallel::clusterEvalQ( cl, requireNamespace( "ff",
+			quietly = TRUE ) ) )
+		invisible( parallel::clusterEvalQ( cl, loadNamespace( "ff" ) ) )
+		parallel::clusterExport( cl,
+			c( "categorize.per.el", "new.levels", "breaks", "env.data" ),
+			envir = environment() )
+		#--------
+		# this is just to check whether each node on the newly created
+		#  "cluster" has access to the data
+		open.file.workers <- parallel::clusterEvalQ( cl, length( env.data ) )
+		if( !all( unlist( open.file.workers ) == length( env.data ) ) ){
+			stop( paste( "Problem with accessing 'env.data' object in workers:",
+					which( unlist( open.file.workers ) != length( env.data ) ) ),
+				  call. = FALSE )
+		}
+		#--------
+
+		out.data.list <- parallel::parLapply( cl, env.data, categorize.per.el )
  	}
 
 	class( out.data.list ) <- get( ".class.data.env.cat",

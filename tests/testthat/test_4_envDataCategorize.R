@@ -24,7 +24,7 @@ test_that( "'breaks' given as a number - less than 1", {
 	expect_error( envDataCategorize( test.read.in, breaks = 0, overwrite = TRUE ))
 })
 
-test_that( "'breaks' given as a number - 3", {
+test_that( "'breaks' given as a number - 4", {
 	breaks <- 4
 	env.data.cat <- envDataCategorize( test.read.in,
 									   breaks = breaks,
@@ -32,6 +32,17 @@ test_that( "'breaks' given as a number - 3", {
 	expect_s3_class( env.data.cat, get( ".class.data.env.cat",
 								   envir = .haplinMethEnv ) )
 	expect_equal( length( env.data.cat ), length( test.read.in ) )
-	expect_equal( levels( env.data.cat[[ 1 ]] ), 0:( length( breaks ) - 2 ) )
+	expect_equal( levels( env.data.cat[[ 1 ]] ), 0:( breaks - 1 ) )
 })
 
+test_that( "'breaks' given as a number - 4, using 3 CPUs", {
+	breaks <- 4
+	env.data.cat <- envDataCategorize( test.read.in,
+									   breaks = breaks,
+									   ncpu = 3,
+									   overwrite = TRUE )
+	expect_s3_class( env.data.cat, get( ".class.data.env.cat",
+								   envir = .haplinMethEnv ) )
+	expect_equal( length( env.data.cat ), length( test.read.in ) )
+	expect_equal( levels( env.data.cat[[ 1 ]] ), 0:( breaks - 1 ) )
+})
