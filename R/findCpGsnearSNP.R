@@ -6,7 +6,7 @@
 #'   positions of CpGs in this chromosome, the function will return a data.frame
 #'   with nearby CpGs (within a given limit).
 #'
-#' @param snp A named vector with SNP name ("marker"), chromosome no. ("chr")
+#' @param snp A named list with SNP name ("marker"), chromosome no. ("chr")
 #'     and coordinate ("coord").
 #' @param cpgs A table with all CpGs in a given chromosome, with the columns
 #'     named: "id", "coord".
@@ -24,7 +24,7 @@ findCpGsnearSNP <- function( snp = stop( "'snp' is required!", call. = FALSE ),
 							 verbose = FALSE
 ){
 	if( length( snp ) < 3 ){
-		stop( "The given 'snp' must be a named vector,
+		stop( "The given 'snp' must be a named list,
 			  including the marker name ('marker'), chromosome number ('chr'),
 			  and the coordinate ('coord').", call. = FALSE )
 	}
