@@ -28,6 +28,12 @@ findCpGsnearSNP <- function( snp = stop( "'snp' is required!", call. = FALSE ),
 			  including the marker name ('marker'), chromosome number ('chr'),
 			  and the coordinate ('coord').", call. = FALSE )
 	}
+  if( is.recursive( cpgs ) == FALSE ){
+    stop( "The given argument 'cpgs' is not compatible with the $ operator. 
+          'cpgs' must be a recursive (list-like) object such as a data frame, 
+          list or tibble."
+          , call. = FALSE )
+  }
 	if( !all(names( cpgs ) %in% c( "id", "coord" )) ){
 		stop( "The given 'cpgs' must be a data.frame with the columns named 'id' and 'coord'!",
 			  call. = FALSE )
