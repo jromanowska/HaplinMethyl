@@ -8,10 +8,11 @@
 #'
 #' @param snp A named list with the SNP's name ("marker"), chromosome no. ("chr")
 #'     and coordinate ("coord").
-#' @param range Number giving the maximum distance from the SNP where the
-#'    function will look for CpGs; default: 5000 (base pairs).
 #' @param cpgs A list or data.frame containing all CpGs on the chromosome where
 #'   the SNP is located. Must have elements/columns named "id" and "coord".
+#' @param range An integer specifying the desired maximum number of base pairs
+#'   between the given SNP and CpGs. The default is 5000. The search for CpGs is
+#'   restricted to the interval (snp$coord - range, snp$coord + range).
 #' @param verbose Whether to display extra info about each SNP (default: FALSE).
 #'
 #' @return A data.frame with CpGs with columns named: "id", "coord".
