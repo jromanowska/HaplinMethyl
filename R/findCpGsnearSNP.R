@@ -6,7 +6,7 @@
 #'   of CpGs on the same chromosome, the function will return a data.frame
 #'   with nearby CpGs (within a given number of base pairs).
 #'
-#' @param snp A named list with SNP name ("marker"), chromosome no. ("chr")
+#' @param snp A named list with the SNP's name ("marker"), chromosome no. ("chr")
 #'     and coordinate ("coord").
 #' @param cpgs A table with all CpGs in a given chromosome, with the columns
 #'     named: "id", "coord".
