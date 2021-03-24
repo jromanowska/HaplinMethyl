@@ -2,9 +2,9 @@
 #'
 #' This is a basic function for searching for CpGs in the vicinity of a given SNP
 #'
-#' Given a position and chromosome number of a SNP, along with a table of
-#'   positions of CpGs in this chromosome, the function will return a data.frame
-#'   with nearby CpGs (within a given limit).
+#' Given the position and chromosome number of a SNP, along with the positions
+#'   of CpGs on the same chromosome, the function will return a data.frame
+#'   with nearby CpGs (within a given number of base pairs).
 #'
 #' @param snp A named list with SNP name ("marker"), chromosome no. ("chr")
 #'     and coordinate ("coord").
