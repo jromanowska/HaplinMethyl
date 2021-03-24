@@ -13,7 +13,7 @@
 #' @param range An integer specifying the desired maximum number of base pairs
 #'   between the given SNP and CpGs. The default is 5000. The search for CpGs is
 #'   restricted to the interval (snp$coord - range, snp$coord + range).
-#' @param verbose Whether to display extra info about each SNP (default: FALSE).
+#' @param verbose Whether to display extra info about the SNP (default: FALSE).
 #'
 #' @return A data.frame with CpGs with columns named: "id", "coord".
 #'
