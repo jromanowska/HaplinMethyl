@@ -29,7 +29,7 @@ findCpGsnearSNP <- function( snp = stop( "'snp' is required!", call. = FALSE ),
 			  and the coordinate ('coord').", call. = FALSE )
 	}
 	if( !all(names( cpgs ) %in% c( "id", "coord" )) ){
-		stop( "The given 'cpg' must be a data.frame with the columns named 'id' and 'coord'!",
+		stop( "The given 'cpgs' must be a data.frame with the columns named 'id' and 'coord'!",
 			  call. = FALSE )
 	}
 
