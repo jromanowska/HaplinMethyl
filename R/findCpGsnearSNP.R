@@ -1,7 +1,8 @@
 #' Finding CpGs near a SNP
 #'
-#' This is a basic function for searching for CpGs in the vicinity of a given SNP
 #' @description 
+#' This is a basic function for searching for CpGs in the vicinity of a given
+#' SNP.
 #'
 #' @details 
 #' Given the position and chromosome number of a SNP, along with the positions
