@@ -44,6 +44,11 @@ findCpGsnearSNP <- function( snp = stop( "'snp' is required!", call. = FALSE ),
           list or tibble."
           , call. = FALSE )
   }
+	if( !( length(names( cpgs )) == 2)  ){
+		stop( paste( "The given 'cpgs' must be a list or data.frame with exactly 2",
+		             "elements or columns!"),
+			  call. = FALSE )
+	}
 	if( !all(names( cpgs ) %in% c( "id", "coord" )) ){
 		stop( "The given 'cpgs' must be a data.frame with the columns named 'id' and 'coord'!",
 			  call. = FALSE )
