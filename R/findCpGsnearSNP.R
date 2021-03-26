@@ -8,9 +8,9 @@
 #' Given the position and chromosome number of a SNP, along with the positions
 #' of CpGs on the same chromosome, the function will return a data.frame with
 #' nearby CpGs (within a given number of base pairs).
-#'     
-#'  **Please note** that you should ensure that the SNP in `snp` and all the
-#'  CpGs in `cpgs` are all on the same chromosome.
+#'  
+#' **Please note** that you should ensure that every CpG in `cpgs` and the SNP
+#'  in `snp` are located on the same chromosome.
 #'
 #' @param snp A named list with the SNP's name ("marker"), chromosome no. ("chr")
 #'     and coordinate ("coord").
