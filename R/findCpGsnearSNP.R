@@ -15,7 +15,9 @@
 #' @param snp A named list with the SNP's name ("marker"), chromosome no. ("chr")
 #'     and coordinate ("coord").
 #' @param cpgs A list or data.frame containing all CpGs on the chromosome where
-#'   the SNP is located. Must have elements/columns named "id" and "coord".
+#'   the SNP is located. Must contain only two elements/columns: one named "id" 
+#'   (unique CpG locus cluster ID, cg#) and one named "coord" (coordinate of CpG
+#'    locus).
 #' @param range An integer specifying the desired maximum number of base pairs
 #'   between the given SNP and CpGs. The default is 5000. The search for CpGs is
 #'   restricted to the interval (snp$coord - range, snp$coord + range).
