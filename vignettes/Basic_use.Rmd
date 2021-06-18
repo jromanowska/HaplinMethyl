@@ -1,0 +1,99 @@
+---
+title: "Basic use"
+author: "Julia Romanowska"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Basic_use}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(HaplinMethyl)
+```
+
+# Introduction
+
+This vignette gives an example of `HaplinMethyl` usage to prepare DNA methylation
+data to use with `Haplin` analyses.
+
+# Read data
+
+Let's use exemplary data:
+
+```{r}
+ex_path <- system.file("extdata", package = "HaplinMethyl")
+ex_file <- "env_data_test.dat"
+ex_out_file <- "dnam_ex"
+
+dnam_ex <- envDataRead(
+  file.in = ex_file,
+  dir.in = ex_path,
+  file.out = ex_out_file,
+  sep = " ", # the exemplary file is a space-delimited file
+  header = TRUE, # make sure to check this!
+  rownames = TRUE, # make sure to check this!
+  overwrite = TRUE
+)
+```
+
+Now, in our directory, we have new files:
+
+```{r}
+dir(pattern = ex_out_file)
+```
+
+If we would like to use this data in future analyses, we can't delete those.
+
+# Loading data
+
+Reading in our exemplary dataset did not take long time as this data is small.
+However, with real-world data, this might take even up to an hour. Thus, you
+don't want to do it every time you start up a new analysis!
+
+If you close your current R-session or delete the DNA methylation object, you
+can easily re-load it by using `envDataLoad` function and the new files 
+created by `envDataRead`.
+
+```{r, eval=FALSE}
+dnam_ex <- envDataLoad(ex_out_file)
+```
+
+> **NOTE:** loading the data from .ffData file takes seconds instead of tens 
+> of minutes! :)
+
+# Look at data
+
+DNA methylation data is usually stored as a huge matrix with CpGs in columns
+and samples in rows, or vice-versa. Each cell of the matrix stores a $\beta$
+value, which tells us the rate of methylation of the CpG in the sample (a
+number between 0 and 1). It might be difficult to print the entire dataset,
+so we've created some help functions.
+
+```{r}
+dnam_ex
+summary(dnam_ex)
+```
+
+If you want the complete vector of row names and/or column names, use
+`short = FALSE` argument of the `summary` function:
+
+```{r}
+summary(dnam_ex, short = FALSE)
+```
+
+You can also get quickly number of rows and columns:
+
+```{r}
+nrows(dnam_ex)
+ncolumns(dnam_ex)
+```
+

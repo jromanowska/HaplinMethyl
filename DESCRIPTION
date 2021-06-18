@@ -10,12 +10,15 @@ Maintainer: Julia Romanowska <Julia.Romanowska@uib.no>
 Depends: R (>= 3.5.0),
   Haplin (>= 7.0.0)
 Imports: ff
-Suggests: testthat,
-  knitr,
-  ggplot2
+Suggests: 
+    testthat,
+    knitr,
+    ggplot2,
+    rmarkdown
 Description: Reading in and handling of large environmental data matrices that are used in
   Haplin analyses, e.g., gene-environment interactions.
 License: GPL (>= 2)
-URL: http://folk.uib.no/gjessing/genetics/software/haplin/
+URL: https://github.com/jromanowska/HaplinMethyl/
 RoxygenNote: 6.1.1
-BugReports: https://bitbucket.org/jrom/haplinmethyl/issues
+BugReports: https://github.com/jromanowska/HaplinMethyl/issues
+VignetteBuilder: knitr

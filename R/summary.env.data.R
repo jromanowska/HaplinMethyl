@@ -1,16 +1,19 @@
 #' @keywords internal
-summary.env.data <- function( object, cont = TRUE ){
+summary.env.data <- function( object, short, cont = TRUE ){
 	all.rownames <- rownames( object[[ 1 ]] )
 	all.colnames.list <- lapply( object, colnames )
 	all.colnames <- do.call( what = c, args = all.colnames.list )
 
-	return( list( class = class( object ),
+	out <- list( class = class( object ),
 				  nrow = nrows( object ),
 				  ncol = ncolumns( object ),
 				  rownames = all.rownames,
 				  colnames = all.colnames
 				  )
-			)
+	if(short){
+	  return(str(out))
+	}
+	return(out)
 }
 
 #' Info about the \code{env.cont} class
@@ -30,8 +33,8 @@ summary.env.data <- function( object, cont = TRUE ){
 #'   }
 #'
 #' @export
-summary.env.cont <- function( object, ... ){
-	summary.env.data( object, cont = TRUE )
+summary.env.cont <- function( object, short = TRUE, ... ){
+	summary.env.data( object, short = short, cont = TRUE )
 }
 
 #' Info about the \code{env.cat} class
@@ -52,5 +55,5 @@ summary.env.cont <- function( object, ... ){
 #'
 #' @export
 summary.env.cat <- function( object, ... ){
-	summary.env.data( object, cont = FALSE )
+	summary.env.data( object, short = short, cont = FALSE )
 }

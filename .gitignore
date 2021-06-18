@@ -5,3 +5,4 @@
 .Ruserdata
 *.ffData
 *.RData
+inst/doc
