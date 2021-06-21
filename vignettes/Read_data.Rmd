@@ -1,10 +1,12 @@
 ---
-title: "Basic use"
+title: "Reading DNA methylation data"
 author: "Julia Romanowska"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    toc: true
 vignette: >
-  %\VignetteIndexEntry{Basic_use}
+  %\VignetteIndexEntry{Read_data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,24 +18,26 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(HaplinMethyl)
-```
-
 # Introduction
 
-This vignette gives an example of `HaplinMethyl` usage to prepare DNA methylation
-data to use with `Haplin` analyses.
+This vignette gives an overview of `HaplinMethyl` functions to read DNA 
+methylation data to memory.
 
-# Read data
+# Read data from a file
 
-Let's use exemplary data:
+Let's use the exemplary data file:
 
-```{r}
+```{r setup}
+library(HaplinMethyl)
+
 ex_path <- system.file("extdata", package = "HaplinMethyl")
 ex_file <- "env_data_test.dat"
 ex_out_file <- "dnam_ex"
+```
 
+To read directly from a file, use `envDataRead` function:
+
+```{r}
 dnam_ex <- envDataRead(
   file.in = ex_file,
   dir.in = ex_path,
@@ -45,13 +49,22 @@ dnam_ex <- envDataRead(
 )
 ```
 
-Now, in our directory, we have new files:
+Now, in your directory, you have new files:
 
 ```{r}
 dir(pattern = ex_out_file)
 ```
 
-If we would like to use this data in future analyses, we can't delete those.
+> If you want to use this data in future analyses, don't delete those files!
+
+# Read data from a matrix
+
+It is also possible to create this object from a matrix that is already
+in the memory.
+
+```{r, eval=FALSE}
+dnam_ex_from_matrix <- envDataReadFromObj(dnam_matrix)
+```
 
 # Loading data
 
@@ -69,6 +82,14 @@ dnam_ex <- envDataLoad(ex_out_file)
 
 > **NOTE:** loading the data from .ffData file takes seconds instead of tens 
 > of minutes! :)
+
+All of the mentioned functions give an object of class `env.data` and either
+`env.cont` for continuous measurements or `env.cat` for categorical data.
+
+```{r}
+class(dnam_ex)
+```
+
 
 # Look at data
 
@@ -96,4 +117,5 @@ You can also get quickly number of rows and columns:
 nrows(dnam_ex)
 ncolumns(dnam_ex)
 ```
+
 
