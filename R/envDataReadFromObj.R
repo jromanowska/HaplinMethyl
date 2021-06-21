@@ -105,5 +105,12 @@ envDataReadFromObj <- function(
 				file = file.path( dir.out, files.list$file.out.base ) )
 	message( "... saved to file: ", files.list$file.out.ff, "\n" )
 
+	if( cont ){
+		class( env.data.col.wise ) <- get( ".class.data.env.cont",
+										   envir = .haplinMethEnv )
+	} else {
+		class( env.data.col.wise ) <- get( ".class.data.env.cat",
+										   envir = .haplinMethEnv )
+	}
 	return( env.data.col.wise )
 }
