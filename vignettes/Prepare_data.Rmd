@@ -1,0 +1,100 @@
+---
+title: "Prepare_data"
+author: "Julia Romanowska"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Prepare_data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+This vignette will show you how to prepare the DNA methylation dataset that
+you have read into the memory as shown in `Read data` vignette. The preparation
+is necessary to use this methylation data together with genetic data in
+interaction analyses in [`Haplin` package](https://cran.r-project.org/package=Haplin).
+
+```{r setup}
+library(HaplinMethyl)
+
+ex_path <- system.file("extdata", package = "HaplinMethyl")
+ex_file <- "env_data_test.dat"
+ex_out_file <- "dnam_ex"
+
+dnam_ex <- envDataRead(
+  file.in = ex_file,
+  dir.in = ex_path,
+  file.out = ex_out_file,
+  sep = " ",
+  overwrite = TRUE
+)
+```
+
+# Subsetting
+
+Let's check again what does `dnam_ex` object include:
+
+```{r}
+dnam_ex
+summary(dnam_ex)
+```
+
+When you don't want to use the entire data, you can use `envDataSubset` function
+to easily specify which filters to apply to the dataset.
+
+You can subset using row names, row numbers, column names, or column numbers.
+This is useful when you want to, e.g., extract only the measurements from
+one subgroup of samples or focus on specific CpGs.
+
+> Check the `Finding CpGs` vignette on how to use the functions that find CpGs
+> within a defined region!
+
+```{r}
+dnam_ex_3cpgs <- envDataSubset(
+  env.data = dnam_ex,
+  col.names = c("cg5", "cg7", "cg10"),
+  file.out = "dnam_ex_3cpgs"
+)
+```
+
+This produces two new files: `dnam_ex_3cpgs_gen.ffData` and
+`dnam_ex_3cpgs_gen.RData`, which again can be used to load the data faster
+in the next R-session instance.
+
+And the returned object is of the same class as the original one, but has only
+the three chosen CpGs:
+
+```{r}
+dnam_ex_3cpgs
+summary(dnam_ex_3cpgs)
+```
+
+# Categorizing
+
+When the measurements are continuous (as it is usually with data from arrays),
+we need to first categorize it to use in `Haplin`. Thus, the level of DNA
+methylation at a single CpG or a CpG region will dictate the stratum membership
+for each sample.
+
+```{r}
+dnam_ex_3cpgs_cat <- envDataCategorize(
+  env.data = dnam_ex_3cpgs,
+  breaks = 3,
+  file.out = "dnam_ex_3cpg_cat",
+  overwrite = TRUE
+)
+dnam_ex_3cpgs_cat
+class(dnam_ex_3cpgs_cat)
+```
+
