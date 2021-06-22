@@ -12,7 +12,7 @@ test_that( "Reading the data correctly", {
 		header = TRUE,
 		rownames = TRUE,
 		overwrite = TRUE )
-	info.test <- summary( test.read.in )
+	info.test <- summary(test.read.in, short = FALSE)
 	ncols.in <- info.test$ncol
 
 	expect_s3_class( test.read.in, class = "env.data" )
@@ -32,7 +32,7 @@ test_that( "Providing vector of row names", {
 		header = TRUE,
 		rownames = rownames,
 		overwrite = TRUE )
-	info.test <- summary( test.read.in )
+	info.test <- summary( test.read.in, short = FALSE )
 	ncols.in <- info.test$ncol
 
 	expect_s3_class( test.read.in, class = "env.data" )
