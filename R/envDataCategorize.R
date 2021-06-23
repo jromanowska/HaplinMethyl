@@ -25,6 +25,7 @@
 #'   files exist.
 #'
 #' @return  A list of ff matrices, now containing the categorized data (factors).
+#'   The function also creates two files: .RData and .ffData.
 #'
 #' @section Details:
 #'   The `env.data` given here is assumed to be a set that is somehow linked to
@@ -83,6 +84,8 @@ envDataCategorize <- function(
     gen.data = env.data,
     cols = 1:ncolumns(env.data)
   )
+  orig_rownames <- summary(env.data, short = FALSE)$rownames
+  
 	if(!is.null(summary.method)){
 	  out_env_data <- switch (summary.method,
 	    sum = {
@@ -110,7 +113,7 @@ envDataCategorize <- function(
 	  # don't summarize
 	  out_env_data_ff <- all_env_data_ff
 	}
-  rownames(out_env_data_ff) <- summary(env.data, short = FALSE)$rownames
+  rownames(out_env_data_ff) <- orig_rownames
 	
   # --- check break points ----
 	if( length( breaks ) == 1 ){
@@ -128,11 +131,12 @@ envDataCategorize <- function(
 	}
 
   n_bins <- length( new_breaks ) - 1
-	new_levels <- 0:( n_bins - 1 )
+	new_levels <- 1:n_bins
 	message( "Creating categories: ", paste( new_levels, collapse = "," ) )
 
   # --- categorize ----
-  cat_env_data <- ff::ffcolapply(
+  cat_env_data <- ff::ff(
+		initdata = ff::ffcolapply(
       EXPR = cut(
         out_env_data_ff[,, drop = FALSE],
         breaks = new_breaks,
@@ -141,13 +145,30 @@ envDataCategorize <- function(
       ),
       X = out_env_data_ff,
       RETURN = TRUE,
-      CFUN = "cbind",
-      FF_RETURN = TRUE
+      CFUN = "c",
+      USE.NAMES = FALSE
+  	),
+		levels = new_levels,
+		dim = c(nrows(env.data), ncol(out_env_data_ff)),
+		vmode = "byte"
   )
-  
-	# TODO: save data!
+	rownames(cat_env_data) <- orig_rownames
+	colnames(cat_env_data) <- colnames(out_env_data_ff)
+	
+	## saving the data in the .RData and .ffData files
+	message( "Saving data... \n" )
+	# this is not a continuous data anymore
+	cont <- FALSE
+	cur.name <- paste( get( ".env.cols.name", envir = .haplinMethEnv ), "1",
+					   sep = "." )
+	assign( cur.name, cat_env_data )
+	save.list <- c( cur.name, "cont" )
+	ff::ffsave( list = save.list,
+				file = file.path( dir.out, files.list$file.out.base ) )
+	message( "... saved to file: ", files.list$file.out.ff, "\n" )
 
-	class( out.data.list ) <- get( ".class.data.env.cat",
-								   envir = .haplinMethEnv )
-	return( out.data.list )
+	out_list <- list(cat_env_data)
+	class(out_list) <- get( ".class.data.env.cat",
+									   envir = .haplinMethEnv )
+	return(out_list)
 }

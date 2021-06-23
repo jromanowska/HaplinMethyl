@@ -54,6 +54,6 @@ summary.env.cont <- function( object, short = TRUE, ... ){
 #'   }
 #'
 #' @export
-summary.env.cat <- function( object, ... ){
+summary.env.cat <- function( object, short = TRUE, ... ){
 	summary.env.data( object, short = short, cont = FALSE )
 }
