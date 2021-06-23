@@ -1,10 +1,13 @@
 #' Creating categorical variables out of continuous data
 #'
-#' This function prepares the environmental per-SNP data to be used in
+#' This function prepares the environmental data to be used in
 #'   stratification when calling \link{haplinStrat}.
 #'
 #' @param env.data The environmental data, read in by \link{envDataRead}
 #'   function.
+#' @param summary.method If there are more than one probe (rows), this method is
+#'   used to summarize the continuous data across columns to create one number
+#'   per row (sample), which will be then used to categorize data.
 #' @param breaks Numerical vector indicating how to divide the continuous values
 #'   into categories (see Details).
 #' @param file.out The core name of the files that will contain the categorized
@@ -22,22 +25,35 @@
 #'   files exist.
 #'
 #' @return  A list of ff matrices, now containing the categorized data (factors).
+#'   The function also creates two files: .RData and .ffData.
 #'
 #' @section Details:
-#'   When 'breaks' is one number, it defines the number of categories that the
-#'   range of values will be divided into. This is good only for equally
-#'   distributed data. Otherwise, the user is adviced to give 'breaks' as a
-#'   vector of break points, similarly to when creating a histogram.
+#'   The `env.data` given here is assumed to be a set that is somehow linked to
+#'   each other, e.g., if the data is DNA methylation measurements for various
+#'   CpGs, the CpGs might be from one region around a given SNP.
+#'   
+#'   The `summary.method` argument takes a value from the following list:
+#'   \itemize{
+#'     \item `sum` - arithmetical sum of the values (default);
+#'     \item `average` - average value;
+#'     \item `NULL` - no summary; **NOTE:** if the data contains more than one
+#'       column, be sure to check that the breaks give correct division for
+#'       each of the column!
+#'   }
+#'   
+#'   When `breaks` is one number, it defines the number of categories that the
+#'   range of values will be divided into. The categories will be equal in size,
+#'   based on the appropriate quantiles calculated from the summarized values.
 #'
 #' @export
 #'
 envDataCategorize <- function(
 	env.data = stop( "You didn't provide the environmental data!",
 					 call. = FALSE ),
+	summary.method = "sum",
 	breaks,
 	file.out = "env_data_cat",
 	dir.out = ".",
-	ncpu = 1,
 	overwrite = NULL
 ){
 	# checking input parameters:
@@ -49,11 +65,6 @@ envDataCategorize <- function(
 		stop( "Wrong class of the given 'env.data'!", call. = FALSE )
 	}
 
-	if( ncpu < 1 ){
-		message( "You set 'ncpu' to a number less than 1 - resetting it to 1.\n" )
-		ncpu <- 1
-	}
-
 	if( length( breaks ) == 1 ){
 		if( breaks == 1 ){
 			stop( "'Breaks' is 1 - you cannot put all the values in one category.",
@@ -62,116 +73,102 @@ envDataCategorize <- function(
 		if( breaks < 1 ){
 			stop( "'Breaks' cannot be less than 1!", call. = FALSE )
 		}
+	} else if( length( breaks ) < 1 ){
+			stop( "Too few break points!", call. = FALSE )
 	}
 	#--------------------------------------------
 
-	find.range.ff <- function( x,y ){
-		new.range <- range( c( x, apply( y[,], 1, range ) ) )
-		return( new.range )
-	}
-	if( length( env.data ) > 1 ){
-		range.all <- Reduce( f = find.range.ff, x = env.data, init = c() )
+	# --- summarize the values ----
+  # extract the measurements as one big ff matrix
+  all_env_data_ff <- Haplin:::f.get.gen.data.cols(
+    gen.data = env.data,
+    cols = 1:ncolumns(env.data)
+  )
+  orig_rownames <- summary(env.data, short = FALSE)$rownames
+  
+	if(!is.null(summary.method)){
+	  out_env_data <- switch (summary.method,
+	    sum = {
+	      ff::ffrowapply(
+	        EXPR = rowSums(all_env_data_ff[,,drop = FALSE]),
+	        X = all_env_data_ff,
+	        RETURN = TRUE,
+	        CFUN = "c"
+	      )
+	    },
+	    average = {
+	      ff::ffrowapply(
+	        EXPR = rowSums(all_env_data_ff[,,drop = FALSE])/ncol(all_env_data_ff),
+	        X = all_env_data_ff,
+	        RETURN = TRUE,
+	        CFUN = "c"
+	      )
+	    }
+	  )
+	  out_env_data_ff <- ff::ff(
+	    as.numeric(out_env_data),
+	    dim = c(length(out_env_data), 1)
+	   )
 	} else {
-		range.all <- range( apply( env.data[[ 1 ]][,], 1, range ) )
+	  # don't summarize
+	  out_env_data_ff <- all_env_data_ff
 	}
-
-
+  rownames(out_env_data_ff) <- orig_rownames
+	
+  # --- check break points ----
 	if( length( breaks ) == 1 ){
-		breaks <- seq( from = range.all[ 1 ],
-					   to = range.all[ 2 ],
-					   length.out = breaks + 1 )
+	  new_breaks <- as.numeric(ff::ffcolapply(
+	    EXPR = quantile(
+	      out_env_data_ff[,,drop=FALSE],
+	      probs = seq.int(from = 0, to = breaks)/breaks
+	    ),
+	    X = out_env_data_ff,
+	    RETURN = TRUE,
+	    CFUN = "c"
+	   ))
 	} else {
-		if( length( breaks ) < 2 ){
-			stop( "Too few break points!", call. = FALSE )
-		}
+	  new_breaks <- breaks
 	}
 
-	n.bins <- length( breaks ) - 1
-	new.levels <- 0:( n.bins - 1 )
-	message( "Creating categories: ", paste( new.levels, collapse = "," ) )
+  n_bins <- length( new_breaks ) - 1
+	new_levels <- 1:n_bins
+	message( "Creating categories: ", paste( new_levels, collapse = "," ) )
 
-	# -- function that will be called on each element of env.data list
-	categorize.per.el <- function( el ){
-			env.data.cat <- ff::ff( 0, levels = new.levels,
-									dim = dim( el ), vmode = "ushort" )
+  # --- categorize ----
+  cat_env_data <- ff::ff(
+		initdata = ff::ffcolapply(
+      EXPR = cut(
+        out_env_data_ff[,, drop = FALSE],
+        breaks = new_breaks,
+        include.lowest = TRUE,
+        labels = FALSE
+      ),
+      X = out_env_data_ff,
+      RETURN = TRUE,
+      CFUN = "c",
+      USE.NAMES = FALSE
+  	),
+		levels = new_levels,
+		dim = c(nrows(env.data), ncol(out_env_data_ff)),
+		vmode = "byte"
+  )
+	rownames(cat_env_data) <- orig_rownames
+	colnames(cat_env_data) <- colnames(out_env_data_ff)
+	
+	## saving the data in the .RData and .ffData files
+	message( "Saving data... \n" )
+	# this is not a continuous data anymore
+	cont <- FALSE
+	cur.name <- paste( get( ".env.cols.name", envir = .haplinMethEnv ), "1",
+					   sep = "." )
+	assign( cur.name, cat_env_data )
+	save.list <- c( cur.name, "cont" )
+	ff::ffsave( list = save.list,
+				file = file.path( dir.out, files.list$file.out.base ) )
+	message( "... saved to file: ", files.list$file.out.ff, "\n" )
 
-			out.length <- nrow( el )
-			# NOTE: 'el' is an ff matrix, so I can't use apply
-			for( col.no in seq_len( ncol( el ) ) ){
-				# extract each column as a numeric
-				cur.col <- el[, col.no ]
-				# factorize
-				new.col <- cut( cur.col, breaks = breaks,
-								labels = as.character( new.levels ),
-								include.lowest = TRUE )
-				# and write to the output ff matrix
-				env.data.cat[ ,col.no ] <- new.col
-			}
-			colnames( env.data.cat ) <- colnames( el )
-			return( env.data.cat )
-		}
-	# -- alternatively, function that will be called on each column of
-	#    the ff matrix with env.data
-	categorize.per.col <- function( col.no, el ){
-		# extract each column as a numeric
-		cur.col <- el[, col.no ]
-		# factorize
-		new.col <- cut( cur.col, breaks = breaks,
-						labels = as.character( new.levels ),
-						include.lowest = TRUE )
-		return( as.numeric( levels( new.col )[ new.col ] ) )
-	}
-
- 	if( ncpu == 1 ){
- 		message( "Using 1 CPU." )
-		# for each element in the list...
-		out.data.list <- lapply( env.data, categorize.per.el )
- 	} else { # if ncpu > 1
-		if( !requireNamespace( "parallel" ) ){
-			stop( "You wanted to run a parallel process but the 'parallel' package is not available!" )
-		}
-		max.ncpu <- parallel::detectCores()
-		ncpu <- min( max.ncpu, ncpu )
-		message( paste0( "Using ", ncpu, " CPUs." ) )
-		cl <- parallel::makeCluster( ncpu, type = "SOCK" )
-		invisible( parallel::clusterEvalQ( cl, requireNamespace( "ff",
-			quietly = TRUE ) ) )
-		invisible( parallel::clusterEvalQ( cl, loadNamespace( "ff" ) ) )
-		parallel::clusterExport( cl,
-			c( "categorize.per.el", "new.levels", "breaks", "env.data" ),
-			envir = environment() )
-		#--------
-		# this is just to check whether each node on the newly created
-		#  "cluster" has access to the data
-		open.file.workers <- parallel::clusterEvalQ( cl, length( env.data ) )
-		if( !all( unlist( open.file.workers ) == length( env.data ) ) ){
-			stop( paste( "Problem with accessing 'env.data' object in workers:",
-					which( unlist( open.file.workers ) != length( env.data ) ) ),
-				  call. = FALSE )
-		}
-		#--------
-		# if env.data has more than one elements...
-		if( length( env.data ) > 1 ){
-			# divide the elements among CPUs
-			out.data.list <- parallel::parLapply( cl, env.data, categorize.per.el )
-		} else {
-			# take the single element and divide the columns among CPUs
-			out.data.col.list <- parallel::parLapply( cl,
-					seq_len( ncol( env.data[[ 1 ]] ) ),
-					categorize.per.col, el = env.data[[ 1 ]] )
-			# ... now, out.data.col.list is a list of factorized columns
-			out.matrix <- do.call( cbind, out.data.col.list )
-			out.ff <- ff::ff( out.matrix,
-							  levels = new.levels,
-							  dim = dim( env.data[[ 1 ]] ),
-							  vmode = "ushort" )
-			colnames( out.ff ) <- colnames( env.data[[ 1 ]] )
-			out.data.list <- list( out.ff )
-		}
-		parallel::stopCluster( cl )
- 	}
-
-	class( out.data.list ) <- get( ".class.data.env.cat",
-								   envir = .haplinMethEnv )
-	return( out.data.list )
+	out_list <- list(cat_env_data)
+	class(out_list) <- get( ".class.data.env.cat",
+									   envir = .haplinMethEnv )
+	return(out_list)
 }

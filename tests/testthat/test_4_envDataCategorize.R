@@ -32,19 +32,7 @@ test_that( "'breaks' given as a number - 4", {
 	expect_s3_class( env.data.cat, get( ".class.data.env.cat",
 								   envir = .haplinMethEnv ) )
 	expect_equal( length( env.data.cat ), length( test.read.in ) )
-	expect_equal( levels( env.data.cat[[ 1 ]] ), 0:( breaks - 1 ) )
-})
-
-test_that( "'breaks' given as a number - 4, using 3 CPUs", {
-	breaks <- 4
-	env.data.cat <- envDataCategorize( test.read.in,
-									   breaks = breaks,
-									   ncpu = 3,
-									   overwrite = TRUE )
-	expect_s3_class( env.data.cat, get( ".class.data.env.cat",
-								   envir = .haplinMethEnv ) )
-	expect_equal( length( env.data.cat ), length( test.read.in ) )
-	expect_equal( levels( env.data.cat[[ 1 ]] ), 0:( breaks - 1 ) )
+	expect_equal( levels( env.data.cat[[ 1 ]] ), 1:breaks )
 })
 
 test_that( "'breaks' given as a vector", {
@@ -55,17 +43,5 @@ test_that( "'breaks' given as a vector", {
 	expect_s3_class( env.data.cat, get( ".class.data.env.cat",
 								   envir = .haplinMethEnv ) )
 	expect_equal( length( env.data.cat ), length( test.read.in ) )
-	expect_equal( levels( env.data.cat[[ 1 ]] ), 0:( length( breaks ) - 2 ) )
-})
-
-test_that( "'breaks' given as a vector, using 3 CPUs", {
-	breaks <- c( 0,0.25,0.5,0.75,1 )
-	env.data.cat <- envDataCategorize( test.read.in,
-									   breaks = breaks,
-									   ncpu = 3,
-									   overwrite = TRUE )
-	expect_s3_class( env.data.cat, get( ".class.data.env.cat",
-								   envir = .haplinMethEnv ) )
-	expect_equal( length( env.data.cat ), length( test.read.in ) )
-	expect_equal( levels( env.data.cat[[ 1 ]] ), 0:( length( breaks ) - 2 ) )
+	expect_equal( levels( env.data.cat[[ 1 ]] ), 1:( length( breaks ) - 1 ) )
 })
