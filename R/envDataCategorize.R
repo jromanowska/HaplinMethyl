@@ -148,7 +148,7 @@ envDataCategorize <- function(
       CFUN = "c",
       USE.NAMES = FALSE
   	),
-		levels = new_levels,
+		levels = as.character(new_levels),
 		dim = c(nrows(env.data), ncol(out_env_data_ff)),
 		vmode = "byte"
   )
