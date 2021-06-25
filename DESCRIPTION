@@ -19,6 +19,6 @@ Description: Reading in and handling of large environmental data matrices that a
   Haplin analyses, e.g., gene-environment interactions.
 License: GPL (>= 2)
 URL: https://github.com/jromanowska/HaplinMethyl/
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
 BugReports: https://github.com/jromanowska/HaplinMethyl/issues
 VignetteBuilder: knitr

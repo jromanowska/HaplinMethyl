@@ -4,7 +4,7 @@
 \alias{summary.env.cat}
 \title{Info about the \code{env.cat} class}
 \usage{
-\method{summary}{env.cat}(object, ...)
+\method{summary}{env.cat}(object, short = TRUE, ...)
 }
 \arguments{
 \item{object}{The \code{env.cat} object read in by \link{envDataRead}.}

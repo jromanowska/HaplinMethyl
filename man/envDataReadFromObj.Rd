@@ -4,9 +4,13 @@
 \alias{envDataReadFromObj}
 \title{Reading the environmental data from an object.}
 \usage{
-envDataReadFromObj(obj.in = stop("The object must be given!", .call =
-  FALSE), file.out = NULL, dir.out = ".", cont = TRUE,
-  overwrite = NULL)
+envDataReadFromObj(
+  obj.in = stop("The object must be given!", .call = FALSE),
+  file.out = NULL,
+  dir.out = ".",
+  cont = TRUE,
+  overwrite = NULL
+)
 }
 \arguments{
 \item{obj.in}{The object (matrix) with the environmental data.}

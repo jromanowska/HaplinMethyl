@@ -4,9 +4,17 @@
 \alias{envDataRead}
 \title{Reading the environmental data from a file.}
 \usage{
-envDataRead(file.in = stop("'file.in' must be given!"), dir.in = ".",
-  file.out = NULL, dir.out = ".", sep = ",", cont = TRUE,
-  header = TRUE, rownames = TRUE, overwrite = NULL)
+envDataRead(
+  file.in = stop("'file.in' must be given!"),
+  dir.in = ".",
+  file.out = NULL,
+  dir.out = ".",
+  sep = ",",
+  cont = TRUE,
+  header = TRUE,
+  rownames = TRUE,
+  overwrite = NULL
+)
 }
 \arguments{
 \item{file.in}{The name of the file with environmental data.}

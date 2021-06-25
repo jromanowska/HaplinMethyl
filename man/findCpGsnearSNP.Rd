@@ -4,12 +4,15 @@
 \alias{findCpGsnearSNP}
 \title{Finding CpGs near a SNP}
 \usage{
-findCpGsnearSNP(snp = stop("'snp' is required!", call. = FALSE),
-  cpgs = stop("'cpgs' is required!", call. = FALSE), range = 5000,
-  verbose = FALSE)
+findCpGsnearSNP(
+  snp = stop("'snp' is required!", call. = FALSE),
+  cpgs = stop("'cpgs' is required!", call. = FALSE),
+  range = 5000,
+  verbose = FALSE
+)
 }
 \arguments{
-\item{snp}{A named vector with SNP name ("marker"), chromosome no. ("chr")
+\item{snp}{A named list with SNP name ("marker"), chromosome no. ("chr")
 and coordinate ("coord").}
 
 \item{cpgs}{A table with all CpGs in a given chromosome, with the columns

@@ -3,7 +3,6 @@
 \docType{package}
 \name{HaplinMethyl}
 \alias{HaplinMethyl}
-\alias{HaplinMethyl-package}
 \title{HaplinMethyl: Additional functions for Haplin, for using matrices of
   environmental data (e.g., DNA methylation data)}
 \description{
@@ -14,8 +13,8 @@ environmental data.
 \section{Reading the environmental data}{
 
 The two functions (\link{envDataRead} and \link{envDataReadFromObj}) read in
-  the data and create an object of \code{env.data} class, which is basically
-  a list with ff-matrices. Simultaneously, two files are written: \code{.RData}
+  the data and create an object of \code{env.data} class, which is
+  a list of ff-matrices. Simultaneously, two files are written: \code{.RData}
   and \code{.ffData}. These are connected and will be used in the data-loading
   function. The object created here has also \link{summary} and \link{print}
   methods defined for easier viewing.

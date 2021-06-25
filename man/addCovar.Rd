@@ -4,9 +4,11 @@
 \alias{addCovar}
 \title{Adding a covariate variable}
 \usage{
-addCovar(data.in = stop("Data.in must be given!", call. = FALSE),
+addCovar(
+  data.in = stop("Data.in must be given!", call. = FALSE),
   covar = stop("covar must be given!", call. = FALSE),
-  c.name = stop("c.name must be given!", call. = FALSE))
+  c.name = stop("c.name must be given!", call. = FALSE)
+)
 }
 \arguments{
 \item{data.in}{The input data, "haplin.data" or "haplin.ready" object.}

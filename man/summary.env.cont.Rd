@@ -4,7 +4,7 @@
 \alias{summary.env.cont}
 \title{Info about the \code{env.cont} class}
 \usage{
-\method{summary}{env.cont}(object, ...)
+\method{summary}{env.cont}(object, short = TRUE, ...)
 }
 \arguments{
 \item{object}{The \code{env.cont} object read in by \link{envDataRead}.}

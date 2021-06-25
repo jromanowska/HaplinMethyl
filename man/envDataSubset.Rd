@@ -4,9 +4,16 @@
 \alias{envDataSubset}
 \title{Subsetting the environmental data}
 \usage{
-envDataSubset(env.data = stop("You need to specify the data!", call. =
-  FALSE), col.names, row.names, col.ids, row.ids,
-  file.out = "my_data_part", dir.out = ".", overwrite = NULL)
+envDataSubset(
+  env.data = stop("You need to specify the data!", call. = FALSE),
+  col.names,
+  row.names,
+  col.ids,
+  row.ids,
+  file.out = "my_data_part",
+  dir.out = ".",
+  overwrite = NULL
+)
 }
 \arguments{
 \item{env.data}{The dataset (class \code{env.data}) from which to extract data.}
