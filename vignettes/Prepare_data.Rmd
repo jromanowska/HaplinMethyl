@@ -96,5 +96,6 @@ dnam_ex_3cpgs_cat <- envDataCategorize(
 )
 dnam_ex_3cpgs_cat
 class(dnam_ex_3cpgs_cat)
+showRaw(dnam_ex_3cpgs_cat)
 ```
 

@@ -87,7 +87,14 @@ showRaw <- function(data = stop("You need to specify the data!", call. = FALSE),
     gen.data = data,
     cols = columns,
     by.colname = all(is.character(columns))
-  )[rows, ]
+  )
+  # there was a bug in Haplin:::f.get.gen.data.cols that returns a vector
+  #   instead of a matrix if only one column is requested
+  #   - temporary fix:
+  if(is.null(dim(show_matrix))){
+    show_matrix <- matrix(show_matrix, ncol = 1)
+  }
+  show_matrix <- show_matrix[rows, , drop = FALSE]
   rownames(show_matrix) <- data_summary$rownames[rows]
   return(show_matrix)
 }
