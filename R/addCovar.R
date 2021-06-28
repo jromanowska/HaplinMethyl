@@ -19,40 +19,40 @@
 #' @export
 #'
 addCovar <- function(
-	data.in = stop( "Data.in must be given!", call. = FALSE )
-	, covar = stop( "covar must be given!", call. = FALSE )
-	, c.name = stop( "c.name must be given!", call. = FALSE )
+	data.in = stop("Data.in must be given!", call. = FALSE)
+	, covar = stop("covar must be given!", call. = FALSE)
+	, c.name = stop("c.name must be given!", call. = FALSE)
 ){
 	# check the input params
-	if( !( inherits( data.in, "haplin.data" ) ||
-		   inherits( data.in, "haplin.ready" ) ) ){
-		stop( "The input data is not in the correct format!", call. = FALSE )
+	if(!(inherits(data.in, "haplin.data") ||
+		   inherits(data.in, "haplin.ready"))){
+		stop("The input data is not in the correct format!", call. = FALSE)
 	}
 
-	if( !is.vector( covar ) ){
-		stop( "'covar' is not a vector!", call. = FALSE )
+	if(!is.vector(covar) & !is.factor(covar)){
+		stop("'covar' is not a vector nor a factor!", call. = FALSE)
 	}
-	if( length( covar ) != nrow( data.in$gen.data[[ 1 ]] ) ){
-		stop( paste0( "'covar' length (", length( covar ),
+	if(length(covar) != nrow(data.in$gen.data[[ 1 ]])){
+		stop(paste0("'covar' length (", length(covar),
 				") is not equal to the number of rows in the data (",
-				nrow( data.in$gen.data[[ 1 ]] ), ")!"), call. = FALSE )
+				nrow(data.in$gen.data[[ 1 ]]), ")!"), call. = FALSE)
 	}
 
-	if( length( c.name ) != 1 ){
-		stop( "'c.name' should be just one string!", call. = FALSE )
+	if(length(c.name) != 1){
+		stop("'c.name' should be just one string!", call. = FALSE)
 	}
 
 	# adding the data
 	new.data <- data.in
-	if( is.null( data.in$cov.data ) ){
+	if(is.null(data.in$cov.data)){
 		# need to create new cov.data
-		new.data$cov.data <- matrix( data = covar, ncol = 1 )
-		colnames( new.data$cov.data ) <- c.name
+		new.data$cov.data <- matrix(data = covar, ncol = 1)
+		colnames(new.data$cov.data) <- c.name
 	} else {
-		new.data$cov.data <- cbind( data.in$cov.data, covar )
-		colnames( new.data$cov.data ) <- c( colnames( data.in$cov.data ),
-											c.name )
+		new.data$cov.data <- cbind(data.in$cov.data, covar)
+		colnames(new.data$cov.data) <- c(colnames(data.in$cov.data),
+											c.name)
 	}
 
-	return( new.data )
+	return(new.data)
 }

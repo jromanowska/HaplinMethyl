@@ -1,0 +1,175 @@
+---
+title: "Run analysis"
+author: "Julia Romanowska"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Run_analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+This vignette will show you how to run the interaction analyses using
+[`Haplin` package](https://cran.r-project.org/package=Haplin).
+
+# Reading data
+
+First, we need to read two datasets: DNA methylation and genotype. We'll use
+simulated data here.
+
+```{r setup}
+library(HaplinMethyl)
+
+ex_path <- system.file("extdata", package = "HaplinMethyl")
+ex_file <- "env_data_test.dat"
+ex_out_file <- "dnam_ex"
+
+dnam_ex <- envDataRead(
+  file.in = ex_file,
+  dir.in = ex_path,
+  file.out = ex_out_file,
+  sep = " ",
+  overwrite = TRUE
+)
+
+ex_gen_file <- "sim1"
+gen_ex <- genDataLoad(
+  filename = ex_gen_file,
+  dir.in = ex_path
+)
+```
+
+Let's take a look at it
+
+```{r}
+dnam_ex
+showRaw(dnam_ex)
+
+gen_ex
+showGen(gen_ex)
+```
+
+The genotype in the example is coded as 1 and 2 instead of a specific base
+letter (e.g., A and T, or A and C) and there is only one marker. The order
+of the columns is as follows: maternal allele 1 (A1), maternal A2, paternal A1,
+paternal A2, child's A1, and child's A2.
+
+# Creating the strata
+
+Let's assume that we know that the first three methylation sites are near the
+marker that is in the genotype dataset. Thus, we need to extract those
+methylation sites first.
+
+```{r}
+dnam_ex_subset <- envDataSubset(
+  env.data = dnam_ex,
+  col.ids = 1:3,
+  file.out = "dnam_subset"
+)
+dnam_ex_subset
+```
+
+Next, let's create one variable that gives division of the samples into strata
+based on the _summarized_ methylation level over the three chosen methylation
+sites.
+
+```{r}
+dnam_ex_cat <- envDataCategorize(
+  env.data = dnam_ex_subset,
+  breaks = 3,
+  file.out = "dnam_cat"
+)
+dnam_ex_cat
+showRaw(dnam_ex_cat)
+```
+
+# Adding the strata variable
+
+Now, the strata variable needs to be added to the genotype dataset.
+
+> NB: be careful to check that the order of the samples is the same in the 
+> stratified DNA methylation data as in the genotype data!
+
+```{r}
+new_strata <- showRaw(dnam_ex_cat, rows = 1:nrows(dnam_ex_cat))
+gen_ex_strat <- addCovar(
+  data.in = gen_ex,
+  covar = new_strata,
+  c.name = "dnam_c"
+)
+gen_ex_strat
+showPheno(gen_ex_strat)
+```
+
+# Preparing genotype data
+
+Haplin requires pre-processing of the genotype data before any analysis can
+be made.
+
+```{r}
+gen_ex_strat_prep <- genDataPreprocess(
+  data.in = gen_ex_strat,
+  file.out = "gen_strat_prep"
+)
+gen_ex_strat_prep
+```
+
+# Run the analysis
+
+## Gene-methylation interactions
+
+Finally, we can run the analysis by using `haplinStrat`
+
+```{r}
+g_x_me_results <- haplinStrat(
+  data = gen_ex_strat_prep,
+  strata = 2
+)
+```
+
+The resulting object is a list of results, with estimates per stratum and for
+pooled sample.
+
+```{r}
+names(g_x_me_results)
+g_x_me_results$all
+haptable(g_x_me_results)
+plot(g_x_me_results)
+```
+
+To check the significance of the interaction, we need to use `gxe` function
+
+```{r}
+gxe(g_x_me_results)
+```
+
+The p-values here show that the interaction was not significant.
+
+## Parent-of-origin-methylation interactions
+
+Similarly, we can also check for interaction between the methylation level
+and parent-of-origin effect of the genetic marker.
+
+```{r}
+poo_x_me_results <- haplinStrat(
+  data = gen_ex_strat_prep,
+  strata = 2,
+  poo = TRUE
+)
+haptable(poo_x_me_results)
+plot(poo_x_me_results)
+
+gxe(poo_x_me_results)
+```
+
