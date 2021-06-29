@@ -8,7 +8,7 @@ The HaplinMethyl package provides three categories of important functions:
 - loading the read-in data, and
 - manipulating the environmental data.
 
-## For the impatient...
+## For those who can't wait to try things out...
 
 ### Reading the environmental data:
 
