@@ -1,5 +1,5 @@
 ---
-title: "Prepare_data"
+title: "Prepare data"
 author: "Julia Romanowska"
 date: "`r Sys.Date()`"
 output:

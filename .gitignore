@@ -6,3 +6,4 @@
 *.ffData
 *.RData
 inst/doc
+docs

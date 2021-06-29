@@ -1,0 +1,37 @@
+reference:
+- title: Data input and preparation
+  contents:
+  - starts_with("envData")
+  - starts_with("findCpGs")
+- title: Summary and data extraction
+  contents:
+  - summary
+  - print
+  - nrows
+  - ncolumns
+  - showRaw
+- title: Analysis
+  contents:
+  - addCovar
+articles:
+- title: How to use HaplinMethyl with Haplin?
+  contents:
+  - Reading DNA methylation data
+  - Prepare data
+  - Run analysis
+template:
+  params:
+    bootswatch: cerulean
+navbar:
+  title: "HaplinMethyl"
+  type: inverse
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Vignettes"
+      href: articles/index.html
+    - text: "Reference"
+      href: reference/index.html
+  right:
+    - icon: glyphicon-download
+      href: https://github.com/jromanowska/HaplinMethyl

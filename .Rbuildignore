@@ -1,3 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 inst/make_examplary_data.*
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
