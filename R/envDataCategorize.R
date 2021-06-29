@@ -15,10 +15,6 @@
 #'   function; default: "env_data_cat".
 #' @param dir.out The directory that will contain the saved data; defaults to
 #'   current working directory.
-#' @param ncpu The number of CPU cores to use - this speeds up the process for
-#'   large datasets significantly. Default is 1 core, maximum is 1 less than
-#'   the total number of cores available on a current machine (even if the number
-#'   given by the user is more than that).
 #' @param overwrite Whether to overwrite the output files: if NULL (default),
 #'   will prompt the user to give answer; set to TRUE, will automatically
 #'   overwrite any existing files; and set to FALSE, will stop if the output

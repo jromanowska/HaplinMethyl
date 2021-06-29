@@ -16,9 +16,9 @@ reference:
 articles:
 - title: How to use HaplinMethyl with Haplin?
   contents:
-  - Reading DNA methylation data
-  - Prepare data
-  - Run analysis
+  - Read_data
+  - Prepare_data
+  - Run_analysis
 template:
   params:
     bootswatch: cerulean

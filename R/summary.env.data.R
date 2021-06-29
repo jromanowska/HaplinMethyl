@@ -21,6 +21,8 @@ summary.env.data <- function( object, short, cont = TRUE ){
 #' Returns a short summary about the continuous environmental data.
 #'
 #' @param object The \code{env.cont} object read in by \link{envDataRead}.
+#' @param short Should the output be truncated to the first elements?
+#'   (default: TRUE) This is useful when the dataset is large.
 #' @param ... ignored
 #'
 #' @return list with:
@@ -42,6 +44,8 @@ summary.env.cont <- function( object, short = TRUE, ... ){
 #' Prints a short summary about the categorical environmental data.
 #'
 #' @param object The \code{env.cat} object read in by \link{envDataRead}.
+#' @param short Should the output be truncated to the first elements?
+#'   (default: TRUE) This is useful when the dataset is large.
 #' @param ... ignored
 #'
 #' @return list with:
