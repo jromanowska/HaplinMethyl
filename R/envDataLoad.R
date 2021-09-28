@@ -59,8 +59,10 @@ envDataLoad <- function( filename = stop( "'filename' must be given!" ),
 											   envir = .haplinMethEnv )
 		}
 	} else {
-		stop( "Problem with the loaded data: 'cont' variable not found!",
-			  call. = FALSE )
+		warning( "Problem with the loaded data: 'cont' variable not found,
+		         assuming that the data is continuous")
+	  class(env.data.col.wise) <- get( ".class.data.env.cont",
+											   envir = .haplinMethEnv )
 	}
 	return( env.data.col.wise )
 }
