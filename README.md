@@ -1,5 +1,7 @@
 # HaplinMethyl
 
+[![DOI](https://zenodo.org/badge/350686987.svg)](https://zenodo.org/badge/latestdoi/350686987)
+
 Additional package to extend the data read by [Haplin](https://cran.r-project.org/package=Haplin).
 
 The HaplinMethyl package provides three categories of important functions:
