@@ -68,8 +68,8 @@ dnam_ex_3cpgs <- envDataSubset(
 )
 ```
 
-This produces two new files: `dnam_ex_3cpgs_gen.ffData` and
-`dnam_ex_3cpgs_gen.RData`, which again can be used to load the data faster
+This produces two new files: `dnam_ex_3cpgs_env.ffData` and
+`dnam_ex_3cpgs_env.RData`, which again can be used to load the data faster
 in the next R-session instance.
 
 And the returned object is of the same class as the original one, but has only
