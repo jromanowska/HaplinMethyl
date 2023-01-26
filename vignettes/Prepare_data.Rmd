@@ -64,7 +64,8 @@ one subgroup of samples or focus on specific CpGs.
 dnam_ex_3cpgs <- envDataSubset(
   env.data = dnam_ex,
   col.names = c("cg5", "cg7", "cg10"),
-  file.out = "dnam_ex_3cpgs"
+  file.out = "dnam_ex_3cpgs",
+  overwrite = TRUE
 )
 ```
 
