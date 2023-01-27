@@ -64,12 +64,13 @@ one subgroup of samples or focus on specific CpGs.
 dnam_ex_3cpgs <- envDataSubset(
   env.data = dnam_ex,
   col.names = c("cg5", "cg7", "cg10"),
-  file.out = "dnam_ex_3cpgs"
+  file.out = "dnam_ex_3cpgs",
+  overwrite = TRUE
 )
 ```
 
-This produces two new files: `dnam_ex_3cpgs_gen.ffData` and
-`dnam_ex_3cpgs_gen.RData`, which again can be used to load the data faster
+This produces two new files: `dnam_ex_3cpgs_env.ffData` and
+`dnam_ex_3cpgs_env.RData`, which again can be used to load the data faster
 in the next R-session instance.
 
 And the returned object is of the same class as the original one, but has only
