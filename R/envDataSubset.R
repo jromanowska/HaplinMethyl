@@ -233,10 +233,10 @@ envDataSubset <- function(env.data = stop("You need to specify the data!",
 	# ---- saving the chosen part of the data----
 	cat("Saving data... \n")
 	cur.names <- c()
-	for(i in seq_along(env.data.col.wise)){
+	for(i in seq_along(data.out)){
 		cur.name <- paste(get(".env.cols.name", envir = .haplinMethEnv), i,
 						   sep = ".")
-		assign(cur.name, env.data.col.wise[[i]])
+		assign(cur.name, data.out[[i]])
 		cur.names <- c(cur.names, cur.name)
 	}
 	save.list <- c(cur.names, "cont.data")
