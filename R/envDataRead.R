@@ -5,7 +5,7 @@
 #'
 #' The environmental data such as methylation data can be large if the information
 #' is stored on per-SNP basis. Thus, when data is large, this function reads it
-#' in andcreates a special ff object that stores the data without limiting the
+#' in and creates a special ff object that stores the data without limiting the
 #' memory available. This can take time but needs to be performed only once.
 #' Later on, one can use the \link{envDataLoad} function to load the appropriate
 #' data from \code{.ffData} file saved to disk, which is a quick process.
