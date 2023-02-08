@@ -35,6 +35,8 @@ test_that( "Duplicate arguments: columns", {
 								col.ids = subset.seq, col.names = subset.seq ) )
 })
 
+# Subsetting columns only
+
 test_that( "Subsetting only columns, by number", {
 	cols.out <- subset.seq
 	subset.out <- envDataSubset( test.read.in, col.ids = cols.out,
@@ -47,6 +49,33 @@ test_that( "Subsetting only columns, by number", {
 				  rownames( test.read.in[[ 1 ]] ) )
 } )
 
+test_that( "Subsetting only columns, by names", {
+  cols.out <- paste0( "cg", subset.seq )
+  subset.out <- envDataSubset( test.read.in, col.names = cols.out,
+                               overwrite = TRUE )
+  
+  expect_s3_class( subset.out, class = "env.data" )
+  expect_equal( colnames( subset.out[[ 1 ]] ),
+                paste0( "cg", subset.seq ) )
+  expect_equal( rownames( subset.out[[ 1 ]] ),
+                rownames( test.read.in[[ 1 ]] ) )
+} )
+
+test_that( "Subsetting only columns, by names, wrong format", {
+  cols.out <- subset.seq
+  expect_error( envDataSubset( test.read.in, col.names = cols.out,
+                               overwrite = TRUE ) )
+} )
+
+test_that( "Subsetting only columns, by names, no col.names in input", {
+  cols.out <- paste0( "cg", subset.seq )
+  expect_error(
+    envDataSubset( test.read.row.names.in, col.names = cols.out,
+                   overwrite = TRUE ) )
+} )
+
+# Subsetting rows only
+
 test_that( "Subsetting only rows, by number", {
 	rows.out <- subset.seq
 	subset.out <- envDataSubset( test.read.in, row.ids = rows.out,
@@ -57,31 +86,6 @@ test_that( "Subsetting only rows, by number", {
 				  paste0( "cg", 1:ncol( test.read.in[[ 1 ]] ) ) )
 	expect_equal( rownames( subset.out[[ 1 ]] ),
 				  rownames( test.read.in[[ 1 ]] )[ rows.out ] )
-} )
-
-test_that( "Subsetting only columns, by names", {
-	cols.out <- paste0( "cg", subset.seq )
-	subset.out <- envDataSubset( test.read.in, col.names = cols.out,
-								 overwrite = TRUE )
-
-	expect_s3_class( subset.out, class = "env.data" )
-	expect_equal( colnames( subset.out[[ 1 ]] ),
-				  paste0( "cg", subset.seq ) )
-	expect_equal( rownames( subset.out[[ 1 ]] ),
-				  rownames( test.read.in[[ 1 ]] ) )
-} )
-
-test_that( "Subsetting only columns, by names, wrong format", {
-	cols.out <- subset.seq
-	expect_error( envDataSubset( test.read.in, col.names = cols.out,
-								 overwrite = TRUE ) )
-} )
-
-test_that( "Subsetting only columns, by names, no col.names in input", {
-	cols.out <- paste0( "cg", subset.seq )
-	expect_error(
-		envDataSubset( test.read.row.names.in, col.names = cols.out,
-					   overwrite = TRUE ) )
 } )
 
 test_that( "Subsetting only rows, by names", {
@@ -106,6 +110,8 @@ test_that( "Subsetting only rows, by names", {
 	expect_equal( rownames( subset.exported.fileset[[ 1 ]] ),
 				  rownames( test.read.in[[ 1 ]] )[ subset.seq ] )
 } )
+
+# Subsetting both columns and rows 
 
 test_that( "Subsetting both rows and columns, by names", {
   rows.out <- paste0( "id", subset.seq )
