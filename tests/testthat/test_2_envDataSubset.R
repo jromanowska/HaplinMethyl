@@ -85,13 +85,24 @@ test_that( "Subsetting only columns, by names, no col.names in input", {
 } )
 
 test_that( "Subsetting only rows, by number", {
-	rows.out <- paste0( "id", subset.seq )
-	subset.out <- envDataSubset( test.read.in, row.names = rows.out,
-								 overwrite = TRUE )
+	rows.out <- subset.seq
+	subset.out <- envDataSubset( test.read.in
+	                             , row.ids = rows.out
+	                             , overwrite = TRUE
+	                             , file.out = "subset_out" )
+	subset.exported.fileset <- envDataLoad( filename = "subset_out" )
 
+	# checking the output object
 	expect_s3_class( subset.out, class = "env.data" )
 	expect_equal( colnames( subset.out[[ 1 ]] ),
 				  paste0( "cg", 1:ncol( test.read.in[[ 1 ]] ) ) )
 	expect_equal( rownames( subset.out[[ 1 ]] ),
-				  rownames( test.read.in[[ 1 ]] )[ subset.seq ] )
+				  rownames( test.read.in[[ 1 ]] )[ rows.out ] )
+
+	# checking the saved object
+	expect_s3_class( subset.exported.fileset, class = "env.data" )
+	expect_equal( colnames( subset.exported.fileset[[ 1 ]] ),
+				  paste0( "cg", 1:ncol( test.read.in[[ 1 ]] ) ) )
+	expect_equal( rownames( subset.exported.fileset[[ 1 ]] ),
+				  rownames( test.read.in[[ 1 ]] )[ rows.out ] )
 } )
