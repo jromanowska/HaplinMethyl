@@ -55,9 +55,15 @@ envDataLoad <- function( filename = stop( "'filename' must be given!" ),
 		if( cont ){
 			class( env.data.col.wise ) <- get( ".class.data.env.cont",
 											   envir = .haplinMethEnv )
+			message( "Continuous data successfully loaded from '"
+			         , file.in.base
+			         , ".ffData/RData'")
 		} else {
 			class( env.data.col.wise ) <- get( ".class.data.env.cat",
 											   envir = .haplinMethEnv )
+			message( "Categorical data successfully loaded from '"
+			         , file.in.base
+			         , ".ffData/RData'")
 		}
 	} else {
 		warning( "Problem with the loaded data: 'cont' variable not found,
