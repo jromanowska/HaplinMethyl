@@ -25,7 +25,8 @@ envDataLoad <- function( filename = stop( "'filename' must be given!" ),
 	file.in.base <- paste( dir.in, "/", filename, "_env", sep = "" )
 	cont <- NULL
 	suppressWarnings( ff::ffload( file.in.base,
-								  rootpath = getOption( "fftempdir" ) ) )
+								  rootpath = getOption( "fftempdir" ),
+								  overwrite = TRUE ) )
 	loaded.objects <- ls( pattern = paste0( env.cols.name, ".[[:digit:]]" ) )
 
 	# maintain the correct order!
