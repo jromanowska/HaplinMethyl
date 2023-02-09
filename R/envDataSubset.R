@@ -175,8 +175,8 @@ envDataSubset <- function(env.data = stop("You need to specify the data!",
 	new.rownames <- c()
 
 	# create new ff object, with the new dimensions
-	cont.data <- "env.cont" %in% info.env.data$class
-	if(!cont.data){
+	cont <- "env.cont" %in% info.env.data$class
+	if(!cont){
 		data.out <- ff::ff(NA,
 							levels = levels(env.data[[ 1 ]]),
 							dim = new.dim,
@@ -211,7 +211,7 @@ envDataSubset <- function(env.data = stop("You need to specify the data!",
 	if(is.subset.rows){
 		data.out <- lapply(env.data.col.wise, function(x){
 			sub <- x[ final.row.sel, ]
-			if(!cont.data){
+			if(!cont){
 				out <- ff::ff(sub, levels = ff::levels.ff(sub),
 							   dim = dim(sub),
 							   vmode = ff::vmode(x))
@@ -239,7 +239,7 @@ envDataSubset <- function(env.data = stop("You need to specify the data!",
 		assign(cur.name, env.data.col.wise[[i]])
 		cur.names <- c(cur.names, cur.name)
 	}
-	save.list <- c(cur.names, "cont.data")
+	save.list <- c(cur.names, "cont")
 	ff::ffsave(list = save.list,
 				file = file.path(dir.out, files.list$file.out.base))
 	cat("... saved to files: ", files.list$file.out.ff, ", ",
