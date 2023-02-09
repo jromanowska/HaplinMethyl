@@ -239,7 +239,7 @@ envDataSubset <- function(env.data = stop("You need to specify the data!",
 		assign(cur.name, env.data.col.wise[[i]])
 		cur.names <- c(cur.names, cur.name)
 	}
-	save.list <- c(cur.names, "cont.data")
+	save.list <- c(cur.names, "cont")
 	ff::ffsave(list = save.list,
 				file = file.path(dir.out, files.list$file.out.base))
 	cat("... saved to files: ", files.list$file.out.ff, ", ",
