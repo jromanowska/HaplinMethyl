@@ -25,7 +25,8 @@ envDataLoad <- function( filename = stop( "'filename' must be given!" ),
 	file.in.base <- paste( dir.in, "/", filename, "_env", sep = "" )
 	cont <- NULL
 	suppressWarnings( ff::ffload( file.in.base,
-								  rootpath = getOption( "fftempdir" ) ) )
+								  rootpath = getOption( "fftempdir" ),
+								  overwrite = TRUE ) )
 	loaded.objects <- ls( pattern = paste0( env.cols.name, ".[[:digit:]]" ) )
 
 	# maintain the correct order!
@@ -54,9 +55,15 @@ envDataLoad <- function( filename = stop( "'filename' must be given!" ),
 		if( cont ){
 			class( env.data.col.wise ) <- get( ".class.data.env.cont",
 											   envir = .haplinMethEnv )
+			message( "Continuous data successfully loaded from '"
+			         , file.in.base
+			         , ".ffData/RData'")
 		} else {
 			class( env.data.col.wise ) <- get( ".class.data.env.cat",
 											   envir = .haplinMethEnv )
+			message( "Categorical data successfully loaded from '"
+			         , file.in.base
+			         , ".ffData/RData'")
 		}
 	} else {
 		warning( "Problem with the loaded data: 'cont' variable not found,
