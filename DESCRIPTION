@@ -1,5 +1,5 @@
 Package: HaplinMethyl
-Version: 0.1
+Version: 0.2
 Title: Additional functions for Haplin, for using matrices of environmental data
   (e.g., DNA methylation data)
 Authors@R: c( person( "Julia", "Romanowska", role = c( "aut", "cre" ),
