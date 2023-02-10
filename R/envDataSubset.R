@@ -165,18 +165,11 @@ envDataSubset <- function(env.data = stop("You need to specify the data!",
 	}
 
 	# get the numbers of columns and chunks (env.data is a list structure!)
-	ncols.per.chunk <- ncol(env.data[[ 1 ]])
-	col.info <- Haplin:::f.get.which.gen.el(final.col.sel, ncols.per.chunk)
-	which.gen.chunk <- col.info$chunk.no
-	which.cols.chunk <- col.info$col.no
-
 	new.dim <- c(length(final.row.sel), length(final.col.sel))
-	new.colnames <- c()
-	new.rownames <- c()
 
 	# create new ff object, with the new dimensions
-	cont.data <- "env.cont" %in% info.env.data$class
-	if(!cont.data){
+	cont <- "env.cont" %in% info.env.data$class
+	if(!cont){
 		data.out <- ff::ff(NA,
 							levels = levels(env.data[[ 1 ]]),
 							dim = new.dim,
@@ -211,7 +204,7 @@ envDataSubset <- function(env.data = stop("You need to specify the data!",
 	if(is.subset.rows){
 		data.out <- lapply(env.data.col.wise, function(x){
 			sub <- x[ final.row.sel, ]
-			if(!cont.data){
+			if(!cont){
 				out <- ff::ff(sub, levels = ff::levels.ff(sub),
 							   dim = dim(sub),
 							   vmode = ff::vmode(x))
@@ -233,13 +226,13 @@ envDataSubset <- function(env.data = stop("You need to specify the data!",
 	# ---- saving the chosen part of the data----
 	cat("Saving data... \n")
 	cur.names <- c()
-	for(i in seq_along(env.data.col.wise)){
+	for(i in seq_along(data.out)){
 		cur.name <- paste(get(".env.cols.name", envir = .haplinMethEnv), i,
 						   sep = ".")
-		assign(cur.name, env.data.col.wise[[i]])
+		assign(cur.name, data.out[[i]])
 		cur.names <- c(cur.names, cur.name)
 	}
-	save.list <- c(cur.names, "cont.data")
+	save.list <- c(cur.names, "cont")
 	ff::ffsave(list = save.list,
 				file = file.path(dir.out, files.list$file.out.base))
 	cat("... saved to files: ", files.list$file.out.ff, ", ",
