@@ -5,9 +5,18 @@
 #' SNP.
 #'
 #' @details 
-#' Given the position and chromosome number of a SNP, along with the positions
-#' of CpGs on the same chromosome, the function will return a data.frame with
-#' nearby CpGs (within a given number of base pairs).
+#' Given the position and chromosome number of a particular SNP, along with the 
+#' positions of CpGs on the same chromosome, the function will return a 
+#' data.frame with nearby CpGs (within a specified number of base pairs).  
+#' 
+#' The positions of the CpGs should refer to the cytosine nucleotide of the CpG 
+#' (or CpH) dinucleotide.  
+#'   
+#' A CpG is classified as 'near' the SNP if the position of its cytosine 
+#' nucleotide falls within the following open interval:  
+#' `(snp$coord - range , snp$coord + range)`.
+#' 
+#' This function uses the 1-based coordinate system.
 #'  
 #' **Please note** that you should ensure that every CpG in `cpgs` and the SNP
 #'  in `snp` are located on the same chromosome.
@@ -16,11 +25,12 @@
 #'     and coordinate ("coord").
 #' @param cpgs A list or data.frame containing all CpGs on the chromosome where
 #'   the SNP is located. Must contain only two elements/columns: one named "id" 
-#'   (unique CpG locus cluster ID, cg#) and one named "coord" (coordinate of CpG
-#'    locus).
+#'   (unique CpG locus cluster ID, cg#) and one named "coord" (coordinate of the
+#'   cytosine nucelotide of CpG locus).
 #' @param range An integer specifying the desired maximum number of base pairs
-#'   between the given SNP and CpGs. The default is 5000. The search for CpGs is
-#'   restricted to the interval (snp$coord - range, snp$coord + range).
+#'   between the given SNP and CpGs. The default is 5000. The search for 
+#'   `cpgs$coord` is restricted to the open interval 
+#'   (snp$coord - range, snp$coord + range).
 #' @param verbose Whether to print information about the result when available
 #'   (default: FALSE).
 #'
