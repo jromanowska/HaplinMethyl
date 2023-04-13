@@ -9,17 +9,20 @@
 \arguments{
 \item{object}{The \code{env.cont} object read in by \link{envDataRead}.}
 
+\item{short}{Should the output be truncated to the first elements?
+(default: TRUE) This is useful when the dataset is large.}
+
 \item{...}{ignored}
 }
 \value{
 list with:
-  \itemize{
-    \item class - the full class name;
-    \item nrow - number of rows;
-    \item ncol - number of columns;
-    \item rownames - character vector with row names;
-    \item colnames - character vector with column names.
-  }
+\itemize{
+\item class - the full class name;
+\item nrow - number of rows;
+\item ncol - number of columns;
+\item rownames - character vector with row names;
+\item colnames - character vector with column names.
+}
 }
 \description{
 Returns a short summary about the continuous environmental data.

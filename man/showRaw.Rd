@@ -11,7 +11,7 @@ showRaw(
 )
 }
 \arguments{
-\item{data}{Object of class `env.data`.}
+\item{data}{Object of class \code{env.data}.}
 
 \item{rows}{Vector containing either numbers of rows or row names to show.
 By default, if no 'rows' or 'columns' argument is given, the function
@@ -24,5 +24,5 @@ to show.}
 Matrix (in ff format) with extracted data.
 }
 \description{
-Extracting the raw measurements from the `env.data` object structure.
+Extracting the raw measurements from the \code{env.data} object structure.
 }

@@ -12,25 +12,43 @@ findCpGsnearSNP(
 )
 }
 \arguments{
-\item{snp}{A named list with SNP name ("marker"), chromosome no. ("chr")
+\item{snp}{A named list with the SNP's name ("marker"), chromosome no. ("chr")
 and coordinate ("coord").}
 
-\item{cpgs}{A table with all CpGs in a given chromosome, with the columns
-named: "id", "coord".}
+\item{cpgs}{A list or data.frame containing all CpGs on the chromosome where
+the SNP is located. Must contain only two elements/columns: one named "id"
+(unique CpG locus cluster ID, cg#) and one named "coord" (coordinate of the
+cytosine nucelotide of CpG locus).}
 
-\item{range}{Number giving the maximum distance from the SNP where the
-function will look for CpGs; default: 5000 (base pairs).}
+\item{range}{An integer specifying the desired maximum number of base pairs
+between the given SNP and CpGs. The default is 5000. The search for
+\code{cpgs$coord} is restricted to the open interval
+(snp$coord - range, snp$coord + range).}
 
-\item{verbose}{Whether to display extra info about each SNP (default: FALSE).}
+\item{verbose}{Whether to print information about the result when available
+(default: FALSE).}
 }
 \value{
 A data.frame with CpGs with columns named: "id", "coord".
 }
 \description{
-This is a basic function for searching for CpGs in the vicinity of a given SNP
+This is a basic function for searching for CpGs in the vicinity of a given
+SNP.
 }
 \details{
-Given a position and chromosome number of a SNP, along with a table of
-  positions of CpGs in this chromosome, the function will return a data.frame
-  with nearby CpGs (within a given limit).
+Given the position and chromosome number of a particular SNP, along with the
+positions of CpGs on the same chromosome, the function will return a
+data.frame with nearby CpGs (within a specified number of base pairs).
+
+The positions of the CpGs should refer to the cytosine nucleotide of the CpG
+(or CpH) dinucleotide.
+
+A CpG is classified as 'near' the SNP if the position of its cytosine
+nucleotide falls within the following open interval:
+\verb{( snp$coord - range , snp$coord + range )}.
+
+This function uses the 1-based coordinate system.
+
+\strong{Please note} that you should ensure that every CpG in \code{cpgs} and the SNP
+in \code{snp} are located on the same chromosome.
 }
