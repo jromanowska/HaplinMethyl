@@ -9,6 +9,9 @@
 \arguments{
 \item{object}{The \code{env.cat} object read in by \link{envDataRead}.}
 
+\item{short}{Should the output be truncated to the first elements?
+(default: TRUE) This is useful when the dataset is large.}
+
 \item{...}{ignored}
 }
 \value{

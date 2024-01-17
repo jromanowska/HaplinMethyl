@@ -35,11 +35,6 @@ current working directory.}
 will prompt the user to give answer; set to TRUE, will automatically
 overwrite any existing files; and set to FALSE, will stop if the output
 files exist.}
-
-\item{ncpu}{The number of CPU cores to use - this speeds up the process for
-large datasets significantly. Default is 1 core, maximum is 1 less than
-the total number of cores available on a current machine (even if the number
-given by the user is more than that).}
 }
 \value{
 A list of ff matrices, now containing the categorized data (factors).
