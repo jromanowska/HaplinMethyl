@@ -1,16 +1,19 @@
 reference:
-- title: Data input and preparation
+- title: "About"
+  contents:
+  - HaplinMethyl
+- title: "Data input and preparation"
   contents:
   - starts_with("envData")
   - starts_with("findCpGs")
-- title: Summary and data extraction
+- title: "Summary and data extraction"
   contents:
-  - summary
-  - print
+  - starts_with("summary")
+  - starts_with("print")
   - nrows
   - ncolumns
   - showRaw
-- title: Analysis
+- title: "Analysis"
   contents:
   - addCovar
 articles:
@@ -20,18 +23,23 @@ articles:
   - Prepare_data
   - Run_analysis
 template:
-  params:
-    bootswatch: cerulean
+  bootstrap: 5
+  bootswatch: sandstone
 navbar:
   title: "HaplinMethyl"
-  type: inverse
-  left:
-    - text: "Home"
+  structure:
+    left: [Home, Vignettes, Reference]
+    right: [github]
+  components:
+    Home:
+      text: "Home"
       href: index.html
-    - text: "Vignettes"
+    Vignettes:
+      text: "Vignettes"
       href: articles/index.html
-    - text: "Reference"
+    Reference:
+      text: "Reference"
       href: reference/index.html
-  right:
-    - icon: glyphicon-download
+    github:
+      icon: fa-github
       href: https://github.com/jromanowska/HaplinMethyl
