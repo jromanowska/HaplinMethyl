@@ -1,7 +1,7 @@
 #' Reading the environmental data from an object.
 #'
-#' This function reads in the environmental data that accompanies the genetic
-#' data read in with \link{genDataRead}.
+#' This function reads in environmental data, such as DNA methylation data in
+#' the form of beta values, from a matrix in memory.
 #'
 #' The environmental data such as methylation data can be large if the information
 #' is stored on per-SNP basis. Thus, when data is large, this function reads
