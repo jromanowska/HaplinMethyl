@@ -1,14 +1,20 @@
-#' Reading the environmental data from an object.
+#' Reading the environmental data from an object in memory.
 #'
 #' This function reads in environmental data, such as DNA methylation data in
 #' the form of beta values, from a matrix in memory.
 #'
-#' The environmental data such as methylation data can be large if the information
-#' is stored on per-SNP basis. Thus, when data is large, this function reads
-#' it in and creates a special ff object that stores the data without limiting
-#' the memory available. This can take time but needs to be performed only once.
-#' Later on, one can use the \link{envDataLoad} function to load the appropriate
-#' data from \code{.ffData} file saved to disk, which is a quick process.
+#'
+#' Objects containing environmental data, such as methylation data, can be
+#' large. This function facilitates memory-efficient storage and access of such
+#' data using the \code{ff} file format. This function takes a matrix object as
+#' input and converts it to a list consisting of one or more \code{ff_matrix}
+#' objects, while also exporting the data to a fileset consisting of one
+#' \code{.ffData} file and one \code{.RData} file (an \code{ffarchive}). This
+#' process can take time, but it only needs to be performed once since the
+#' output files (i.e., the \code{.ffData} + \code{.RData} fileset) can be
+#' quickly loaded later on using the \link{envDataLoad} function. The resulting
+#' list of \code{ff_matrix} objects provides fast and memory-efficient access to
+#' the environmental data.
 #'
 #' @param obj.in The object (matrix) with the environmental data.
 #' @param file.out The base name for the output files (see Details).
@@ -16,8 +22,9 @@
 #'   saved.
 #' @param cont Logical - are the values continuous (TRUE, default) or categories
 #'   (FALSE)? See Details.
-#' @param overwrite Logical: if a file with the given name exists, should it be
-#'   overwritten or not? If NULL, the user will be prompt for input.
+#' @param overwrite  Logical: if a file in \code{dir.out} with the given output
+#'   file name already exists, should it be overwritten or not? If NULL, the
+#'   user will be prompted for input.
 #'
 #' @return A list of \code{ff_matrix} objects with the environmental data in
 #'   numeric format.
@@ -35,7 +42,7 @@
 #'   done manually or with the provided \link{envDataCategorize} function.
 #'
 #' @export
-#'
+#' 
 envDataReadFromObj <- function(
 	obj.in = stop( "The object must be given!", .call = FALSE ),
 	file.out = NULL,
