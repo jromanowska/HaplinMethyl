@@ -26,14 +26,15 @@
 #' @param overwrite Logical: if a file with the given name exists, should it be
 #'   overwritten or not? If NULL, the user will be prompt for input.
 #'
-#' @return A list of ffdf objects with the environmental data in numeric format.
+#' @return A list of ff_matrix objects with the environmental data in numeric
+#'   format.
 #'
-#' @section Details:
-#' If 'file.out' is not given, the default is NULL and the output filenames are
-#'   constructed based on the input filenames. The '_env' suffix is added to the
-#'   base name and the \code{.ffData} file is written to disk. This file contains
-#'   all the information needed to restore the ffdf object by calling
-#'   \link{envDataLoad} function later on.
+#' @section Details: If 'file.out' is not given, the default is NULL and the
+#'   output filenames are constructed based on the input filenames. The suffix
+#'   '_env' is added to the base name and the \code{.ffData} file is written to
+#'   disk. This file contains all the information needed to restore the list
+#'   with \code{ff_matrix} objects by calling \link{envDataLoad} function later
+#'   on.
 #'
 #'   If 'cont' is TRUE (default), the output data will be a list of ff matrices
 #'   containing single-precision values. However, before using this data as
