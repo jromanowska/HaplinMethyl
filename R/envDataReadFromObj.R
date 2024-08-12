@@ -12,7 +12,8 @@
 #'
 #' @param obj.in The object (matrix) with the environmental data.
 #' @param file.out The base name for the output files (see Details).
-#' @param dir.out The path to the directory where the output files will be saved.
+#' @param dir.out The path to the directory where the output files will be
+#'   saved.
 #' @param cont Logical - are the values continuous (TRUE, default) or categories
 #'   (FALSE)? See Details.
 #' @param overwrite Logical: if a file with the given name exists, should it be

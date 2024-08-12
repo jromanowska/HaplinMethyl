@@ -18,8 +18,8 @@
 #'   file; "," by default (as in a csv file).
 #' @param cont Logical - are the values continuous (TRUE, default) or categories
 #'   (FALSE)? See Details.
-#' @param header Logical indicating whether the first line of the file is a header;
-#'   default TRUE.
+#' @param header Logical indicating whether the first line of the file is a
+#'   header; default TRUE.
 #' @param rownames Default (TRUE) indicates that the first column of the file
 #'   includes names of rows. If a character vector is given here, these names
 #'   are used as rownames; if FALSE, no rownames are used.
