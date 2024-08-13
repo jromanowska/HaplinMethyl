@@ -20,6 +20,6 @@ This is a basic function for searching for CpGs within a given coordinate range
 }
 \details{
 Given a position range and chromosome number, along with a table of positions
-  of CpGs in this chromosome, the function will return a data.frame with
-  the chosen CpGs.
+of CpGs in this chromosome, the function will return a data.frame with
+the chosen CpGs.
 }

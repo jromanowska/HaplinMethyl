@@ -16,13 +16,13 @@
 }
 \value{
 list with:
-  \itemize{
-    \item class - the full class name;
-    \item nrow - number of rows;
-    \item ncol - number of columns;
-    \item rownames - character vector with row names;
-    \item colnames - character vector with column names.
-  }
+\itemize{
+\item class - the full class name;
+\item nrow - number of rows;
+\item ncol - number of columns;
+\item rownames - character vector with row names;
+\item colnames - character vector with column names.
+}
 }
 \description{
 Prints a short summary about the categorical environmental data.

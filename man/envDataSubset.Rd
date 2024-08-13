@@ -43,7 +43,7 @@ Extract a subset of environmental data by specifying rows and/or columns.
 }
 \section{Warning}{
 
-  The parameter \code{col.names} cannot be used jointly with \code{col.ids},
-  similarly for the rows!
+The parameter \code{col.names} cannot be used jointly with \code{col.ids},
+similarly for the rows!
 }
 

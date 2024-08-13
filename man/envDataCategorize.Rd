@@ -38,29 +38,29 @@ files exist.}
 }
 \value{
 A list of ff matrices, now containing the categorized data (factors).
-  The function also creates two files: .RData and .ffData.
+The function also creates two files: .RData and .ffData.
 }
 \description{
 This function prepares the environmental data to be used in
-  stratification when calling \link{haplinStrat}.
+stratification when calling \link{haplinStrat}.
 }
 \section{Details}{
 
-  The `env.data` given here is assumed to be a set that is somehow linked to
-  each other, e.g., if the data is DNA methylation measurements for various
-  CpGs, the CpGs might be from one region around a given SNP.
-  
-  The `summary.method` argument takes a value from the following list:
-  \itemize{
-    \item `sum` - arithmetical sum of the values (default);
-    \item `average` - average value;
-    \item `NULL` - no summary; **NOTE:** if the data contains more than one
-      column, be sure to check that the breaks give correct division for
-      each of the column!
-  }
-  
-  When `breaks` is one number, it defines the number of categories that the
-  range of values will be divided into. The categories will be equal in size,
-  based on the appropriate quantiles calculated from the summarized values.
+The \code{env.data} given here is assumed to be a set that is somehow linked to
+each other, e.g., if the data is DNA methylation measurements for various
+CpGs, the CpGs might be from one region around a given SNP.
+
+The \code{summary.method} argument takes a value from the following list:
+\itemize{
+\item \code{sum} - arithmetical sum of the values (default);
+\item \code{average} - average value;
+\item \code{NULL} - no summary; \strong{NOTE:} if the data contains more than one
+column, be sure to check that the breaks give correct division for
+each of the column!
+}
+
+When \code{breaks} is one number, it defines the number of categories that the
+range of values will be divided into. The categories will be equal in size,
+based on the appropriate quantiles calculated from the summarized values.
 }
 

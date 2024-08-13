@@ -46,12 +46,12 @@ A list of ffdf objects with the environmental data in numeric format.
 }
 \description{
 This function reads in the environmental data that accompanies the genetic
- data read in with \link{genDataRead}.
+data read in with \link{genDataRead}.
 }
 \details{
 The environmental data such as methylation data can be large if the information
 is stored on per-SNP basis. Thus, when data is large, this function reads it
-in andcreates a special ff object that stores the data without limiting the
+in and creates a special ff object that stores the data without limiting the
 memory available. This can take time but needs to be performed only once.
 Later on, one can use the \link{envDataLoad} function to load the appropriate
 data from \code{.ffData} file saved to disk, which is a quick process.
@@ -59,14 +59,14 @@ data from \code{.ffData} file saved to disk, which is a quick process.
 \section{Details}{
 
 If 'file.out' is not given, the default is NULL and the output filenames are
-  constructed based on the input filenames. The '_env' suffix is added to the
-  base name and the \code{.ffData} file is written to disk. This file contains
-  all the information needed to restore the ffdf object by calling
-  \link{envDataLoad} function later on.
+constructed based on the input filenames. The '_env' suffix is added to the
+base name and the \code{.ffData} file is written to disk. This file contains
+all the information needed to restore the ffdf object by calling
+\link{envDataLoad} function later on.
 
-  If 'cont' is TRUE (default), the output data will be a list of ff matrices
-  containing single-precision values. However, before using this data as
-  stratification values, the user needs to create categories - this can be
-  done manually or with the provided \link{envDataCategorize} function.
+If 'cont' is TRUE (default), the output data will be a list of ff matrices
+containing single-precision values. However, before using this data as
+stratification values, the user needs to create categories - this can be
+done manually or with the provided \link{envDataCategorize} function.
 }
 
