@@ -2,6 +2,7 @@
 % Please edit documentation in R/HaplinMethyl.R
 \docType{package}
 \name{HaplinMethyl}
+\alias{HaplinMethyl-package}
 \alias{HaplinMethyl}
 \title{HaplinMethyl: Additional functions for Haplin, for using matrices of
 environmental data (e.g., DNA methylation data)}
@@ -36,3 +37,20 @@ specifically for DNA methylation data: \link{findCpGsnearSNP} and
 SNP or within a certain coordinate range.
 }
 
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/jromanowska/HaplinMethyl/}
+  \item Report bugs at \url{https://github.com/jromanowska/HaplinMethyl/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Julia Romanowska \email{Julia.Romanowska@uib.no} (\href{https://orcid.org/0000-0001-6733-1953}{ORCID})
+
+Authors:
+\itemize{
+  \item Haakon K. Gjessing [contributor]
+}
+
+}
