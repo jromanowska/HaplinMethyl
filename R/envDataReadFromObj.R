@@ -20,8 +20,8 @@
 #' @param file.out The base name for the output files (see Details).
 #' @param dir.out The path to the directory where the output files will be
 #'   saved.
-#' @param cont Logical - are the values continuous (TRUE, default) or categories
-#'   (FALSE)? See Details.
+#' @param cont Logical - are the values continuous (\code{TRUE}, default) or
+#'   categories (\code{FALSE})? See Details.
 #' @param overwrite  Logical: if a file in \code{dir.out} with the given output
 #'   file name already exists, should it be overwritten or not? If NULL, the
 #'   user will be prompted for input.
@@ -29,17 +29,18 @@
 #' @return A list of \code{ff_matrix} objects with the environmental data in
 #'   numeric format.
 #'
-#' @section Details: If 'file.out' is not given, the default is NULL and the
-#'   output filenames are constructed based on the input filenames. The suffix
-#'   '_env' is added to the base name and the \code{.ffData} file is written to
-#'   disk. This file contains all the information needed to restore the list
-#'   with \code{ff_matrix} objects by calling \link{envDataLoad} function later
-#'   on.
+#' @section Details: If \code{file.out} is not given, the default is NULL and
+#'   the output filenames are constructed based on the input filenames. The
+#'   suffix '_env' is added to the base name and the \code{.ffData} file is
+#'   written to disk. This file contains all the information needed to restore
+#'   the list with \code{ff_matrix} objects by calling \link{envDataLoad}
+#'   function later on.
 #'
-#'   If 'cont' is TRUE (default), the output data will be a list of ff matrices
-#'   containing single-precision values. However, before using this data as
-#'   stratification values, the user needs to create categories - this can be
-#'   done manually or with the provided \link{envDataCategorize} function.
+#'   If \code{cont} is \code{TRUE} (default), the output data will be a list of
+#'   ff matrices containing single-precision values. However, before using this
+#'   data as stratification values, the user needs to create categories - this
+#'   can be done manually or with the provided \link{envDataCategorize}
+#'   function.
 #'
 #' @export
 #' 

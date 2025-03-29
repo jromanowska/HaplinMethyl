@@ -29,4 +29,4 @@
 #' @name HaplinMethyl
 #'
 #' @import Haplin
-NULL
+"_PACKAGE"
