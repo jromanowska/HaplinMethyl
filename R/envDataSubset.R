@@ -203,7 +203,7 @@ envDataSubset <- function(env.data = stop("You need to specify the data!",
 	# if subsetting rows
 	if(is.subset.rows){
 		data.out <- lapply(env.data.col.wise, function(x){
-			sub <- x[ final.row.sel, ]
+			sub <- x[ final.row.sel, , drop = FALSE ]
 			if(!cont){
 				out <- ff::ff(sub, levels = ff::levels.ff(sub),
 							   dim = dim(sub),
